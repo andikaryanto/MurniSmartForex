@@ -1,0 +1,33 @@
+<!--
+  Generated template for the DemosettinglanguagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color = "custom">
+    <ion-title>{{languageSettingRes}}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="save()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <div class ="wrapper">
+    <ion-list>
+
+      <ion-item *ngFor = "let language of languages" (tap)="updateLanguage(language.Id)">
+        <ion-label>{{language.Language}}</ion-label>
+        <!-- <ion-checkbox [(ngModel)]="language.Selected"></ion-checkbox> -->
+        <ion-radio checked = "{{language.Selected}}"></ion-radio>
+      </ion-item>
+  
+    </ion-list>
+  </div>
+</ion-content>

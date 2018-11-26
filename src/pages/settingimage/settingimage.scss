@@ -1,0 +1,94 @@
+page-settingimage {
+    .image__grid {
+		margin-top: 5px;
+		overflow: hidden;
+		.image__square:nth-child(3n+3){
+			padding-right: 5px;
+		}
+		.image__square {
+			height: 30vw;
+			width: 30vw;
+			float: left;
+			padding: 0px 0px 5px 5px;
+			img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                background-color: rgb(199, 199, 199);
+			}
+            img.selected {
+               border: 3px solid rgb(58, 124, 247);
+            }
+		}
+    }
+    
+    .cardfix {
+        height: 300px !important;
+    }
+
+    .column-button
+    {
+        align-self: center !important;
+    }
+
+    .button-header
+    {
+        background-color: transparent !important;
+        padding: 1px 1px !important;
+    }
+
+    .card-content
+    {
+        height: 200px;
+    }
+
+    .ion-scrollcustom {
+        white-space: nowrap;
+        //height: 64vh;
+        height: 200px;
+        
+    }
+    .content-md {
+        color: #000;
+        background-color: #dedede !important;
+    }
+
+    .customRow {
+        display: flow-root !important;
+    }
+
+    .tool-bar-footer
+    {
+        height: 0px !important;
+    }
+
+    .headerContent
+    {
+        height: 50px;
+        width: 100%;
+        padding: 5px 5px 0px 5px;
+        .text
+        {
+            float: left;
+            line-height: 50px;
+            height: 40px;
+            color: #488aff;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size : 1.2em;
+            width: 30%;
+        }
+        .button
+        {
+            height: 40px;
+            float: left;
+            line-height: 50px;
+            font-size : 1.2em;
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 70%;
+            text-align: right;
+        }
+    }
+
+}

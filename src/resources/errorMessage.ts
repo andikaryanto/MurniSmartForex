@@ -1,0 +1,1 @@
+export const multimediaNotSupported ="DOMException: Failed to load because no supported source was found.";

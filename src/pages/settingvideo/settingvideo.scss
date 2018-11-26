@@ -1,0 +1,125 @@
+page-settingvideo {
+    .image__grid {
+		margin-top: 5px;
+		overflow: hidden;
+		.image__square:nth-child(4n+4){
+			padding-right: 0px;
+		}
+		.image__square {
+			height: 30vw;
+			width: 30vw;
+			float: left;
+			padding: 0px 0px 5px 5px;
+			img {
+			    height: 100%;
+                width: 100%;
+                object-fit: cover;
+                
+            }
+            img.selected {
+               border: 3px solid rgb(58, 124, 247);
+            }
+
+            // .customContainer {
+            //     display: inline-block;
+            //     border: 1px solid;
+            //     position: absolute;
+            //     img {
+            //         display: block;
+            //         }
+            // }
+              
+            // .customPositioner {
+            //     width: 50%;
+            //     height: 50%;
+            //     position: absolute;
+            //     left: 0;
+            //     top: 0;
+            //     background: hsla(0, 100%, 50%, 0.4);
+            // }
+
+            // .customIcon {
+            //     position: absolute;
+            //     right: -8px;
+            //     bottom: -8px;
+            //     width: 16px;
+            //     height: 16px;
+            //     border-radius: 10px;
+            //     border: 2px solid white;
+            //     background: blue;
+            // }
+		}
+    }
+
+    .cardfix {
+        height: 300px !important;
+    }
+
+    .column-button
+    {
+        align-self: center !important;
+    }
+
+    .button-header
+    {
+        background-color: transparent !important;
+        padding: 1px 1px !important;
+    }
+
+    .card-content
+    {
+        height: 200px;
+    }
+
+    ion-scroll {
+        white-space: nowrap;
+        height: inherit;
+        
+    }
+
+    .tool-bar-footer
+    {
+        height: 0px !important;
+    }
+
+    .headerContent
+    {
+        height: 50px;
+        width: 100%;
+        padding: 5px 5px 0px 5px;
+        .text
+        {
+            float: left;
+            line-height: 50px;
+            height: 40px;
+            color: #488aff;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size : 1.2em;
+            width: 30%;
+        }
+        .button
+        {
+            height: 40px;
+            float: left;
+            line-height: 50px;
+            font-size : 1.2em;
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 70%;
+            text-align: right;
+        }
+    }
+    
+    .ion-scrollcustom {
+        white-space: nowrap;
+        //height: 64vh;
+        height: 200px;
+        
+    }
+
+    .content-md {
+        color: #000;
+        background-color: #dedede !important;
+    }
+}

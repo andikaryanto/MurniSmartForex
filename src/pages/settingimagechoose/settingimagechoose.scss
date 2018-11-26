@@ -1,0 +1,25 @@
+page-settingimagechoose {
+    .image__grid {
+		margin-top: 5px;
+		overflow: hidden;
+		.image__square:nth-child(4n+4){
+			padding-right: 5px;
+		}
+		.image__square {
+			height: 25vw;
+			width: 25vw;
+			float: left;
+			padding: 0px 0px 5px 5px;
+			img {
+			    height: 100%;
+                width: 100%;
+				object-fit: cover;
+				background-color: rgb(199, 199, 199);
+                
+            }
+            img.selected {
+               border: 3px solid rgb(58, 124, 247);
+            }
+		}
+    }
+}

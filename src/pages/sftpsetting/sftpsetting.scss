@@ -1,0 +1,26 @@
+page-sftpsetting {
+    .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        border-bottom-color: #dedede !important;
+        -webkit-box-shadow: inset 0 -1px 0 0 #dedede;
+        box-shadow: inset 0 -1px 0 0 #dedede !important;
+    }
+
+    .list-md .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child, .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child {
+        border-bottom-color: #dedede !important;
+        -webkit-box-shadow: inset 0 -1px 0 0 #dedede;
+        box-shadow: inset 0 -1px 0 0 #dedede !important;
+    }
+
+    .wrapper
+    {
+        // border-bottom: 1px solid #dedede;
+        // border-top: 1px solid #dedede;
+        width: 100%;
+        margin : 10px 0px 0px 0px;
+    }
+
+    .content-md {
+        color: #000;
+        background-color: #dedede !important;
+    }
+}

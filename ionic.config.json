@@ -1,0 +1,7 @@
+{
+  "name": "startYa",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

@@ -1,0 +1,19 @@
+page-demosettingimagemodal {
+    .content {
+		background-color: color($colors, dark);
+	}
+	.slider__image {
+		width: 100%;
+	}
+	.slider__imagecaption {
+		color: #FFF;
+		font-weight: bold;
+		font-size: 0.8em;
+	}
+	.swiper-pagination-bullet {
+		background: #969696;
+	}
+	.swiper-pagination-bullet-active {
+		background: #FFF;
+	}
+}

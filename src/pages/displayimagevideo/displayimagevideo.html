@@ -1,0 +1,42 @@
+<ion-header no-border>
+  <ion-navbar transparent>
+      <button ion-button menuToggle *ngIf = "!isButtonHide">
+          <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-buttons right *ngIf = "!isButtonHide">
+          <button ion-button icon-only (click)="displayTabular()"><ion-icon name="md-grid"></ion-icon></button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scrollY="false" (tap) = "hideUnhideButton()">
+  <ion-slides *ngIf = "backgrounds.length > 0" 
+              pager="false"
+              loop="true" 
+              effect = "fade"
+              speed = "{{slideSpeed}}"
+              autoplay = "{{autoPlay}}"
+              direction = "vertical"
+              (ionSlideDidChange) = "slideChanged()"
+              (ionSlideReachEnd) = "slideReachEnd()"
+              (ionSlideAutoplayStop) = "slideAutoPlayStops()">
+    <ion-slide  class="slide-background swiper-no-swiping" 
+              *ngFor="let background of backgrounds; let i = index" 
+              [ngStyle]="{'background-image': 'url(' +background.LocalPath+')' }">
+    </ion-slide>
+  </ion-slides>
+  <div *ngIf = "videos.length > 0" class="video-player">
+    <video id ='VideoPlayer' class="video-player" (ended) = 'playVideo()'></video>
+  </div>
+</ion-content>
+
+<div id ="scrolText" *ngIf = "isUseTicker" class="example1">
+  <div class = "mover" >
+      <div class ="imageTextWrapper" *ngFor = "let data of runningTickers">
+              <img class ="imgRunning" src = "assets/logo/murni.png" >
+              <div class = "textRunning">{{data}}</div>
+      </div>
+  </div>
+</div>
+
+  

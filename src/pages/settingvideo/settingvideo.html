@@ -1,0 +1,69 @@
+<!--
+  Generated template for the DemosettingimagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header #headerElement>
+
+  <ion-navbar color = "custom">
+    <ion-title>{{videosSettingRes}}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="save()">
+        <ion-icon name="md-checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content scrollY="false">
+  <!-- <ion-card #cardFolderElement>
+    <ion-item>
+      <ion-label color="primary" fixed>Folder Name</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Folder Name" clearInput [(ngModel)] = "imageSettingModel.folderName"></ion-input>>
+    </ion-item>
+  </ion-card> -->
+  <ion-card id = "cardContent" class = "card-content">
+    <div class = "headerContent">
+      <div class = "text" color="primary">
+          {{videosRes}}
+      </div>
+      <div class = "button">
+          <button ion-buttons class="button-header" icon-only (click)="toVideoChoose()">
+            <ion-icon color = "primary" name="add"></ion-icon>
+          </button>
+          <button ion-buttons class="button-header" icon-only (click)="removeImage()">
+              <ion-icon color = "primary" name="md-trash"></ion-icon>
+          </button>
+      </div>
+    </div>
+
+    <ion-scroll id = "idScroll" scrollY="true" overflow-scroll="true" class = "ion-scrollcustom">
+      <div class = "image__grid">
+        <div class="image__square" *ngFor="let image of images; let i = index">
+          <img id = "{{image.fileName}}" src = "{{image.customThumbnail}}" (click) = "setSelected(image.fileName)" (press) = "playVideo(image.URL)"/>
+        </div>
+      </div>	
+      </ion-scroll>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-pullup (onExpand)="footerExpanded()" (onCollapse)="footerCollapsed()" [(state)]="footerState">
+    <ion-toolbar class = "tool-bar-footer" (tap)="toggleFooter()">
+    </ion-toolbar>
+      <ion-content>
+          <div class="image__grid">		
+            <div class="image__square" *ngFor="let image of imagesGallery; let i = index"> 
+              <img [src]="image.thumbnailURL" (tap) = "getImage(image.id)"/>
+            </div>			
+          </div>
+          <ion-infinite-scroll (ionInfinite)="doInfinite($event)">`
+            <ion-infinite-scroll-content 
+            loadingSpinner="bubbles"></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+      </ion-content>
+  </ion-pullup> -->
