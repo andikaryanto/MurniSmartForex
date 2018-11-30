@@ -9,6 +9,7 @@ import { Config } from '../../helper/gen-config';
 import { AppVersion } from '@ionic-native/app-version';
 import { CustomToast } from '../../helper/gen-toast';
 import { BackupStatusModel } from '../../models/gen-backupstatus';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the SettingbackupPage page.
@@ -44,7 +45,8 @@ export class SettingbackupPage {
               private config : Config,
               private appVersion : AppVersion,
               private toast : CustomToast,
-              private backupStatusModel : BackupStatusModel) {
+              private backupStatusModel : BackupStatusModel,
+              private menuCtrl : MenuController) {
                 this.htmlResources();
   }
 
@@ -55,6 +57,7 @@ export class SettingbackupPage {
 
   async init(){
     
+    //this.menuCtrl.enable(true, "sideMenu");
     var backUpStatus = await this.backupStatusModel.getBackUpStatus();
     this.lastBackUpDate = backUpStatus['FormatedDate'];
   }

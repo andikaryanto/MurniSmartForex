@@ -44,6 +44,7 @@ import { DbSmartDisplayPlayerConfigurationProvider } from '../providers/database
 import { DbBackUpStatusProvider } from '../providers/database/dbBackupStatus';
 import { DbRestoreStatusProvider } from '../providers/database/dbRestoreStatus';
 import { DbMultimediaProvider } from '../providers/database/dbMultimedia';
+import { DbSmartDisplayTickerSettingsProvider } from '../providers/database/dbSmartDisplayTickerSettings';
 
 //model
 import { MUserModel } from '../models/m-usermodel';
@@ -96,6 +97,7 @@ import { CodePush } from '@ionic-native/code-push';
 import { DbSftpProvider } from '../providers/database/dbSftp';
 import { SftpModel } from '../models/gen-sftp';
 import { Insomnia } from '@ionic-native/insomnia';
+import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplaytickersetting';
 
 @NgModule({
   declarations: [
@@ -172,6 +174,7 @@ import { Insomnia } from '@ionic-native/insomnia';
     SmartdisplayProvider,
     LocalStorageProvider,
     DbSftpProvider,
+    DbSmartDisplayTickerSettingsProvider,
 
     MUserModel,
     MUserProfileModel,
@@ -188,6 +191,7 @@ import { Insomnia } from '@ionic-native/insomnia';
     SmartDisplayContainSettingModel,
     SmartDisplayParameterSettingModel,
     SmartDisplayPlayerConfigurationModel,
+    SmartDisplayTickerSettingsModel,
     BackupStatusModel,
     RestoreStatusModel,
     MultimediaModel,

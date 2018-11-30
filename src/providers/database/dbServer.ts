@@ -18,6 +18,7 @@ export class DbServerProvider{
                 await this.alterTableServer();
                 //await this.deleteServer();
                 await this.defaultData();
+                await this.updateData();
             }
          })
          .catch(err => {
@@ -89,6 +90,38 @@ export class DbServerProvider{
         })
         .catch(err => {
             console.error("data not exist", err)
+        }) 
+        //});
+    }
+
+    async updateData() {
+        //return new Promise((resolve, reject) => {
+        this.isDataExistServer()
+        .then(isExist => {
+            if(isExist){
+                this.storage.create({
+                    name: 'data.db',
+                    location: 'default'
+                })
+                .then((db: SQLiteObject) => {
+                    db.executeSql("Update Server set ServerPort = ?", ['8080'])
+                    .then((data) => {
+                        //console.log("insert server yes");
+                        //resolve(true);
+                    }, (error) => {
+                        //console.log("insert server error", error);
+                        //resolve(false);
+                    });
+                })
+                .catch((error) =>
+                {
+                    //console.log("insert server error 2", error);
+                   //resolve(false);
+                });
+            }
+        })
+        .catch(err => {
+            console.error("", err)
         }) 
         //});
     }

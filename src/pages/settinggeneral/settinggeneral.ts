@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DemoSettingModel } from '../../models/gen-demosetting';
 import { CustomToast } from '../../helper/gen-toast';
 import { Resource } from '../../helper/gen-resources';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the SettinggeneralPage page.
@@ -33,13 +34,15 @@ export class SettinggeneralPage {
               public navParams: NavParams,
               public demoSettingModel : DemoSettingModel,
               private customToast : CustomToast,
-              private resources : Resource) {
+              private resources : Resource,
+              private menuCtrl : MenuController) {
                 
              this.htmlResources();
   }
 
   ionViewDidLoad() {
     this.loadData();
+    //this.menuCtrl.enable(true, "sideMenu");
     console.log('ionViewDidLoad DemosettinggeneralPage');
   }
 

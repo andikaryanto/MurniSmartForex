@@ -6,6 +6,7 @@ import { SFTPWrapper } from 'ssh2';
 import { SftpModel } from '../../models/gen-sftp';
 import { CustomToast } from '../../helper/gen-toast';
 import { RegisterPage } from '../register/register';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the RegistersettingPage page.
@@ -36,7 +37,8 @@ export class RegistersettingPage{
               private appVersion : AppVersion,
               private resources : Resource,
               private sftpModel : SftpModel,
-              private customToast : CustomToast
+              private customToast : CustomToast,
+              private menuCtrl : MenuController
               ) {
               this.init();
   }
@@ -46,6 +48,7 @@ export class RegistersettingPage{
   }
 
   async init(){
+    this.menuCtrl.enable(false, "sideMenu");
     await this.htmlResources();
     this.appName = await this.appVersion.getAppName();
     this.SftpModels = await this.sftpModel.getSftp();

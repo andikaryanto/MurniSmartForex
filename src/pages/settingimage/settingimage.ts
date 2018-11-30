@@ -7,6 +7,7 @@ import { Config } from '../../helper/gen-config';
 import { Resource } from '../../helper/gen-resources';
 import { SettingimagechoosePage } from '../settingimagechoose/settingimagechoose';
 import { SettingimagemodalPage } from '../settingimagemodal/settingimagemodal';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the SettingimagePage page.
@@ -64,7 +65,8 @@ export class SettingimagePage {
               private toast : CustomToast,
               private config : Config,
               private resources : Resource,
-              private modalCtrl : ModalController) {
+              private modalCtrl : ModalController,
+              private menuCtrl : MenuController) {
               this.init();
               this.htmlResources();
                
@@ -91,6 +93,7 @@ export class SettingimagePage {
 
   init()
   {
+    //this.menuCtrl.enable(true, "sideMenu");
     //if(this.navParams.get("folderName") !== null)
     //{
       //this.imageSettingModel.folderName = this.config.imageDir();

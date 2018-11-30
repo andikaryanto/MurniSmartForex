@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the AboutPage page.
@@ -20,7 +21,8 @@ export class AboutPage {
   appVersions = "";
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              private appVersion : AppVersion) {
+              private appVersion : AppVersion,
+              private menuCtrl : MenuController) {
                 this.init();
   }
 
@@ -29,6 +31,7 @@ export class AboutPage {
   }
 
   async init(){
+    this.menuCtrl.enable(true, "sideMenu");
     this.appName = await this.appVersion.getAppName();
     this.appVersions = "Version " + await this.appVersion.getVersionNumber();
   }

@@ -9,9 +9,9 @@ export class SmartDisplayPlayerConfigurationModel
 
     }
 
-    async init(){
-        await this.dbSmartDisplayPlayerConfiguration.init();
-    }
+        async init(){
+            await this.dbSmartDisplayPlayerConfiguration.init();
+        }
 
     saveSmartDisplayPlayerConfiguration(playerConfiguration){
         this.dbSmartDisplayPlayerConfiguration.saveSmartDisplayPlayerConfiguration(playerConfiguration['LayoutOrientation'][0],

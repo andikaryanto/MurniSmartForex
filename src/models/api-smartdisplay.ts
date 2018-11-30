@@ -113,7 +113,8 @@ export class ApiSmartDisplayModel
                     || sourceData['duration'] != data['Duration']
                     || sourceData['activationDate'] != data['ActivationDate'] 
                     || sourceData['deactivationDate'] != data['DeactivationDate'] 
-                    || sourceData['deliveryDate'] != data['deliveryDate']  
+                    || sourceData['deliveryDate'] != data['DeliveryDate']  
+                    || sourceData['path'] != data['Path']  
                     || sourceData['isDeleted'] != data['IsDeleted']  
                     || sourceData['startTime'] != data['StartTime']  
                     || sourceData['endTime'] != data['EndTime'] 
@@ -128,15 +129,15 @@ export class ApiSmartDisplayModel
         
                 if(isValid){
                     var localPath = "";
-                    var originPath = "";
+                    var originPath = sourceData['path'];;
                     var localDir = ""
                     if (sourceData['multimediaType'] == Enums.ApiSmartDisplayMultimediaType.StillImage.toString()){
-                        originPath = "/Stills/" + sourceData['fileName'];
+                        //originPath = sourceData['path'];//"/MDisplay/Stills/" + sourceData['fileName'];
                         localDir = this.localStorage.getApplicationDataImageDirectory();
                         localPath = this.localStorage.getApplicationDataImageDirectory() +"/"+ sourceData['fileName'];
                     }
                     else if (sourceData['multimediaType'] == Enums.ApiSmartDisplayMultimediaType.VCD.toString()){
-                        originPath = "/Videos/" + sourceData['fileName'];
+                        //originPath = sourceData['path'];//"/MDisplay/Videos/" + sourceData['fileName'];
                         localDir = this.localStorage.getApplicationDataVideoDirectory();
                         localPath = this.localStorage.getApplicationDataVideoDirectory() +"/"+ sourceData['fileName'];
         
@@ -253,17 +254,18 @@ export class ApiSmartDisplayModel
         return data['SmartDisplayAPI']['SmartDisplayAPIResult'][0];
     }
 
-    reDownloadMultimedia(path,name,type)
+    reDownloadMultimedia(path,name,type,originPath)
     {
         var localPath="";
-        var originPath="";
+        //var originPath="";
         if(type===Enums.ApiSmartDisplayMultimediaType.VCD)
-        {   originPath="/Videos/" + name;
+        {   
+            //originPath="/MDisplay/Videos/" + name;
             localPath = this.localStorage.getApplicationDataVideoDirectory()+"/"+name;
         }
         else
         {
-            originPath= "/Stills/" + name;
+            //originPath= "/MDisplay/Stills/" + name;
             localPath = this.localStorage.getApplicationDataImageDirectory()+"/"+name;
         }
         

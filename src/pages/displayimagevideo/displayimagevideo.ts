@@ -17,6 +17,7 @@ import * as errorMessage from '../../resources/errorMessage'
 import { DisplaytabularlandscapePage } from '../displaytabularlandscape/displaytabularlandscape';
 import { DisplaytabularpotraitPage } from '../displaytabularpotrait/displaytabularpotrait';
 import { SettingPage } from '../setting/setting';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the DisplayimagevideoPage page.
@@ -69,7 +70,8 @@ export class DisplayimagevideoPage {
               private smartDisplayCustomerInfoModel : SmartDisplayCustomerInfoModel,
               private smartDisplayPlayerConfigurationModel : SmartDisplayPlayerConfigurationModel,
               private helper : Helper,
-              private multimediaModel : MultimediaModel) {
+              private multimediaModel : MultimediaModel,
+              private menuCtrl : MenuController) {
               //this.init();
   }
 
@@ -79,6 +81,8 @@ export class DisplayimagevideoPage {
   }
   //api file region
   async initApi(){
+    
+    this.menuCtrl.enable(true, "sideMenu");
     this.demoSetting = await this.demoSettings.getDemoSetting();
     this.infoCustomer = await this.smartDisplayCustomerInfoModel.getSmartDisplayCustomerInfo();
     this.sdPlayerConfig = await this.smartDisplayPlayerConfigurationModel.getSmartDisplayPlayerConfiguration();
@@ -92,6 +96,7 @@ export class DisplayimagevideoPage {
     await this.getDataMultimediaApi();
     // if(this.sdPlayerConfig['LayoutContain'] == Enums.LayoutContain.FullMultimediaandticker){
       this.isUseTicker = true;
+      
       await this.getTickerApi();
       this.scrollingTextElement();
     // }
@@ -410,6 +415,7 @@ export class DisplayimagevideoPage {
     var video = document.getElementsByTagName('video')[0];
     if(this.videosPlayed < this.videos.length)
     {
+      var originpath = this.videos[this.videosPlayed]['Path'];
       var url = this.videos[this.videosPlayed]['LocalPath'];
       video.src =  this.videos[this.videosPlayed]['LocalPath'];
       video.play()
@@ -421,7 +427,7 @@ export class DisplayimagevideoPage {
           this.videos.splice(this.videosPlayed,1);
           var path = this.localStorage.getPath(url,1);
           var name = this.localStorage.getName(url);
-          this.apiSmartDisplayModel.reDownloadMultimedia(path,name,Enums.ApiSmartDisplayMultimediaType.VCD);
+          this.apiSmartDisplayModel.reDownloadMultimedia(path,name,Enums.ApiSmartDisplayMultimediaType.VCD, originpath);
 
         } 
         // this.getImage()

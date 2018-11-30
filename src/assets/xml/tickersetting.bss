@@ -1,0 +1,77 @@
+<SmartDisplayAPI>
+	<MethodName>callGetLastUpdateTickerSettingsByPlayer</MethodName>
+	<RequesterInfo>
+		<IPAddress>192.168.1.20</IPAddress>
+		<DateTime>Wed Nov 28 09:40:03 ICT 2018</DateTime>
+	</RequesterInfo>
+	<SmartDisplayAPIResult>	
+		<SResultCode>SUCCESS</SResultCode>	
+		<SResultDescription>Last Update Record is found</SResultDescription>	
+		<SmartDisplayPlayer>   		
+			<PlayerID>002_andik</PlayerID>   		
+			<LastUpdate>2018-11-27 14:38:06.76</LastUpdate>	
+		</SmartDisplayPlayer>	
+		<SmartDisplayTickerSettings>	
+			<TickerSettingsInfo ID="1">   		
+				<Name>FontName</Name>   		
+				<Value>Arial</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="2">   		
+				<Name>FontSize</Name>   		
+				<Value>24</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="3">   		
+				<Name>FontColour</Name>   		
+				<Value>ffffff</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="4">   		
+				<Name>BGColour</Name>   		
+				<Value>0069aa</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="5">   		
+				<Name>Separator</Name>   		
+				<Value>Image</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="6">   		
+				<Name>Separator_ImageFilePath</Name>   		
+				<Value>TickerLogo.bmp</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="7">   		
+				<Name>Separator_Line</Name>   		
+				<Value>1</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="8">   		
+				<Name>Separator_LineColour</Name>   		
+				<Value>0f0101</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="9">   		
+				<Name>Separator_LineThickness</Name>   		
+				<Value>3</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="10">   		
+				<Name>Separator_SymbolFilePath</Name>   		
+				<Value>rb9</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="11">   		
+				<Name>Separator_SymbolColour</Name>   		
+				<Value>030303</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="12">   		
+				<Name>Delay</Name>   		
+				<Value>3</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="13">   		
+				<Name>Step</Name>   		
+				<Value>1</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="14">   		
+				<Name>DelayPotrait</Name>   		
+				<Value>150000</Value>	
+			</TickerSettingsInfo>	
+			<TickerSettingsInfo ID="15">   		
+				<Name>StepPotrait</Name>   		
+				<Value>1</Value>	
+			</TickerSettingsInfo>
+		</SmartDisplayTickerSettings>
+	</SmartDisplayAPIResult>
+</SmartDisplayAPI>

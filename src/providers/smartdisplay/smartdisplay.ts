@@ -110,4 +110,27 @@ export class SmartdisplayProvider {
     });
   }
 
+  async doGetTickerSettingByPlayerId(playerId : string){
+    var server = await this.dbServerProvider.getServer();
+    this.apiUrl = "http://"+server["ServerIP"]+":"+server["ServerPort"]+"/";
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + "sdapi/SmartDisplay.bss?methodName=doGetUpdatedTickerSettingsByPlayerID&displayPlayerID="+playerId)
+      .subscribe(data => {
+        xml2js
+        .parseString(data.text(), (error, result) => {
+
+        if(error) {
+            console.error(error);
+        } else {
+            resolve(result);
+        }
+
+      });
+      }, err => {
+        console.error(err);
+      });
+    });
+  }
 }
+
+

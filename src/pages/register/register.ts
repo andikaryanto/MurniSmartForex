@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, MenuController } from 'ionic-angular';
 import { ApiSmartDisplayModel } from '../../models/api-smartdisplay';
 import { Device } from '@ionic-native/device';
 import { SmartDisplayPlayerConfigurationModel } from '../../models/gen-smartdisplayplayercofiguration';
@@ -52,7 +52,8 @@ export class RegisterPage {
               private serverModel : ServerModel,
               private loadingCtrl : LoadingController,
               private resources : Resource,
-              private appVersion : AppVersion) {
+              private appVersion : AppVersion,
+              private menuCtrl : MenuController) {
                 this.init();
                 
   }
@@ -66,6 +67,7 @@ export class RegisterPage {
     await this.htmlResources();
     this.appName = await this.appVersion.getAppName();
     this.serverModels = await this.serverModel.getServer();
+    this.menuCtrl.enable(false, "sideMenu");
   }
 
   async htmlResources()

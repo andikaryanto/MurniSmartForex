@@ -15,6 +15,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import * as Enums from '../../enum/enums';
 import * as errorMessage from '../../resources/errorMessage'
 import { DisplayimagevideoPage } from '../displayimagevideo/displayimagevideo';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 
 /**
@@ -98,14 +99,15 @@ export class DisplaytabularlandscapePage {
               private smartDisplayCustomerInfoModel : SmartDisplayCustomerInfoModel,
               private apiSmartDisplayModel : ApiSmartDisplayModel,
               private helper : Helper,
-              private multimediaModel : MultimediaModel) {
+              private multimediaModel : MultimediaModel,
+              private menuCtrl : MenuController) {
                 this.htmlResources();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DemotabularlandscapePage');
     
-    this.initApi()
+    this.initApi();
   }
 
   ionViewWillLeave()
@@ -127,6 +129,7 @@ export class DisplaytabularlandscapePage {
   }
 
   async initApi(){
+    this.menuCtrl.enable(true, "sideMenu");
     console.log(this.cache.getItem(this.config.chaceGalleryKey())) 
     this.demoSetting =  await this.demoSettings.getDemoSetting();
     this.infoCustomer = await this.smartDisplayCustomerInfoModel.getSmartDisplayCustomerInfo();
@@ -412,6 +415,7 @@ export class DisplaytabularlandscapePage {
       console.log(this.videosPlayed);
       if(this.videosPlayed < this.videos.length)
       {
+        var originpath = this.videos[this.videosPlayed]['Path'];
         var url = this.videos[this.videosPlayed]['LocalPath'];
         video.src =  this.videos[this.videosPlayed]['LocalPath'];
         video.play()
@@ -423,7 +427,7 @@ export class DisplaytabularlandscapePage {
             this.videos.splice(this.videosPlayed,1);
               var path = this.localStorage.getPath(url,1);
               var name = this.localStorage.getName(url);
-              this.apiSmartDisplayModel.reDownloadMultimedia(path,name,Enums.ApiSmartDisplayMultimediaType.VCD);
+              this.apiSmartDisplayModel.reDownloadMultimedia(path,name,Enums.ApiSmartDisplayMultimediaType.VCD,originpath);
 
           } 
           // this.getImage()

@@ -12,6 +12,7 @@ import { SettingbackupPage } from '../settingbackup/settingbackup';
 import { AboutPage } from '../about/about';
 import { SftpsettingPage } from '../sftpsetting/sftpsetting';
 import { Config } from '../../helper/gen-config';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 
 /**
  * Generated class for the SettingPage page.
@@ -60,7 +61,8 @@ export class SettingPage {
               private demoSettingModel : DemoSettingModel,
               private resources : Resource,
               private localStorage : LocalStorage,
-              private config : Config) {
+              private config : Config,
+              private menuCtrl : MenuController) {
                 this.htmlResources();
   }
 
@@ -88,6 +90,8 @@ export class SettingPage {
   ionViewDidEnter()
   {
     this.loadData();
+    
+    //this.menuCtrl.enable(true, "sideMenu");
     //console.log('ionViewDidEnter DemosettingPage');
   }
 

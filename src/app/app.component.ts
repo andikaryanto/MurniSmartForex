@@ -37,6 +37,7 @@ import { DisplaytabularpotraitPage } from '../pages/displaytabularpotrait/displa
 import { DisplaytabularlandscapePage } from '../pages/displaytabularlandscape/displaytabularlandscape';
 import { Insomnia } from '@ionic-native/insomnia';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplaytickersetting';
 
 @Component({
   templateUrl: 'app.html'
@@ -58,6 +59,7 @@ customerInfo = {};
 restoreStatus = {};
 downloadProgress : number = 0;
 loading : any;
+isAppUpdated : boolean = false;
 
 
   constructor(private platform: Platform, 
@@ -73,6 +75,7 @@ loading : any;
               private smartDisplayContainSettingModel : SmartDisplayContainSettingModel,
               private smartDisplayParameterSettingModel : SmartDisplayParameterSettingModel,
               private smartDisplayPlayerConfigurationModel : SmartDisplayPlayerConfigurationModel,
+              private smartDisplayTickerSettingsModel : SmartDisplayTickerSettingsModel,
               private backupStatusModel : BackupStatusModel,
               private restoreStatusModel : RestoreStatusModel,
               private multimediaModel : MultimediaModel,
@@ -141,12 +144,26 @@ loading : any;
   checkUpdate(){
     this.codePush.checkForUpdate()
     .then(data => {
-      console.log("data", data);
       if(data){
-        this.loading = this.loadingCtrl.create({
-          content: this.downloadingUpdateRes + this.downloadProgress.toString() + "%"
-        });
-        this.loading.present();
+        console.log("data", data);
+        // this.codePush.getCurrentPackage()
+        // .then(curPackage => {
+        //   console.log("curPackage",curPackage);
+        //   if((curPackage && curPackage.label !== data.label) || curPackage === null){
+            this.isAppUpdated = false;
+            this.loading = this.loadingCtrl.create({
+              content: this.downloadingUpdateRes + this.downloadProgress.toString() + "%"
+            });
+            this.loading.present();
+            this.checkCodePush();
+          //} 
+        // })
+        // .catch(err => {
+        //   console.log(err);
+        // });        
+      } else {
+        console.log("data", data);
+        this.isAppUpdated = true;
         this.checkCodePush();
       }
     })
@@ -156,9 +173,13 @@ loading : any;
   }
 
   checkCodePush() {
-    this.codePush.sync(null, progress => {
-      this.downloadProgress = (progress.receivedBytes / progress.totalBytes ) * 100;
-      this.loading.setContent(this.downloadingUpdateRes + Math.round(this.downloadProgress).toString() + "%");
+    this.codePush.sync({
+      installMode: InstallMode.IMMEDIATE
+      }, 
+      progress => {
+        this.downloadProgress = (progress.receivedBytes / progress.totalBytes ) * 100;
+        if(!this.isAppUpdated)
+          this.loading.setContent(this.downloadingUpdateRes + Math.round(this.downloadProgress).toString() + "%");
     }).subscribe(
       (data) => {
         if(Number(data) == Number(SyncStatus.INSTALLING_UPDATE)){
@@ -170,7 +191,7 @@ loading : any;
       },
       (err) => {
         console.error(err);
-        this.loading.dismiss();
+        //this.loading.dismiss();
       }
     );
  }
@@ -186,6 +207,8 @@ loading : any;
       this.multimediaModel.init();
       this.restoreStatusModel.init();
       this.sftpModel.init();
+      this.smartDisplayTickerSettingsModel.init();
+      
   }
 
   

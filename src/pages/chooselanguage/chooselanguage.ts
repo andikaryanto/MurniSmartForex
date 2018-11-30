@@ -12,6 +12,7 @@ import { Helper } from '../../helper/helper';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { Resource } from '../../helper/gen-resources';
 import { DisplayimagevideoPage } from '../displayimagevideo/displayimagevideo';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
 /**
  * Generated class for the ChooselanguagePage page.
  *
@@ -50,7 +51,8 @@ export class ChooselanguagePage {
               private sqlitePorter : SQLitePorter,
               private loadingCtrl : LoadingController,
               private resources : Resource,
-              private alertCtrl : AlertController) {
+              private alertCtrl : AlertController,
+              private menuCtrl : MenuController) {
                 this.init();
                 
   }
@@ -60,8 +62,6 @@ export class ChooselanguagePage {
     console.log('ionViewDidLoad ChooselanguagePage');
     //this.page.statBar();
   }
-
-  
 
   promptRestoreData(){
     let alert = this.alertCtrl.create({
@@ -90,6 +90,8 @@ export class ChooselanguagePage {
   }
 
   async init(){
+    this.menuCtrl.enable(false, "sideMenu");
+
     await this.htmlResources();
     this.appVersion.getAppName()
     .then(async value => {
