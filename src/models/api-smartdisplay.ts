@@ -14,6 +14,10 @@ import { ServerModel } from './gen-server';
 import { CustomToast } from '../helper/gen-toast';
 import { Resource } from '../helper/gen-resources';
 import { errorHandler } from '@angular/platform-browser/src/browser';
+import { SmartDisplayTickerSettingsModel } from './gen-smartdisplaytickersetting';
+import { DbSmartDisplayTickerSettingsProvider } from '../providers/database/dbSmartDisplayTickerSettings';
+import { TickerModel } from './gen-ticker';
+
 @Injectable()
 
 export class ApiSmartDisplayModel
@@ -28,11 +32,14 @@ export class ApiSmartDisplayModel
                 private smartDisplayPlayerConfigurationModel : SmartDisplayPlayerConfigurationModel,
                 private smartDisplayContainSettingModel : SmartDisplayContainSettingModel,
                 private smartDisplayParameterSettingModel : SmartDisplayParameterSettingModel,
+                private smartDisplayTickerSettingModel : SmartDisplayTickerSettingsModel,
+                private smartDisplayTickerSettingProvider : DbSmartDisplayTickerSettingsProvider,
                 private multimediModel : MultimediaModel,
                 private serverModel : ServerModel,
                 private localStorage : LocalStorage,
                 private toast : CustomToast,
-                private resources : Resource)
+                private resources : Resource,
+                private tickerModel : TickerModel)
     {
         this.init();
     }
@@ -43,13 +50,11 @@ export class ApiSmartDisplayModel
 
     async htmlResources()
     {
-    await this.resources.getLanguage();
-    this.connectedToServerRes = this.resources.ConnectedToServerRes();
-    this.failedToConnectedToServerRes = this.resources.FailedConnectToServerRes();
-    this.connectionTimeOutRes = this.resources.ConnectionTimeOutRes();
+        await this.resources.getLanguage();
+        this.connectedToServerRes = this.resources.ConnectedToServerRes();
+        this.failedToConnectedToServerRes = this.resources.FailedConnectToServerRes();
+        this.connectionTimeOutRes = this.resources.ConnectionTimeOutRes();
     }
-
-
     saveSmartDisplayConfig(displayPlayerId, sDisplayCode) : Promise<boolean>{
         return new Promise(async (resolve, reject) => {
             this.apiSmartDisplayProvider.doRegister(displayPlayerId,sDisplayCode)
@@ -86,9 +91,80 @@ export class ApiSmartDisplayModel
         });
     }
 
+
+
     async doGetUpdatedMultimediaByPlayerID(playerId : string){
         var dataMultimedia = await this.apiSmartDisplayProvider.doGetUpdatedMultimediaByPlayerID(playerId);
         return dataMultimedia;
+    }
+
+    async doGetTickerSettingByPlayerId(playerId : string){
+        var isAnyChange = false;
+        var dataTickerSetting = await this.apiSmartDisplayProvider.doGetTickerSettingByPlayerId(playerId);
+        //console.log('here',dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo']);
+        var sourcedata = dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo']
+        //console.log('here : ',sourcedata[0]['Value'][0]);
+        var sourcedatalocal = await this.smartDisplayTickerSettingProvider.getSmartDisplayTickerSettings();
+        var TickerSetting= this.smartDisplayTickerSettingModel.createObjectSmartDisplayTickerSettings(
+            null,
+            sourcedata[0]['Value'][0],
+            sourcedata[1]['Value'][0],
+            sourcedata[2]['Value'][0],
+            sourcedata[3]['Value'][0],
+            sourcedata[4]['Value'][0],
+            sourcedata[5]['Value'][0],
+            sourcedata[6]['Value'][0],
+            sourcedata[7]['Value'][0],
+            sourcedata[8]['Value'][0],
+            sourcedata[9]['Value'][0],
+            sourcedata[10]['Value'][0],
+            sourcedata[11]['Value'][0],
+            sourcedata[12]['Value'][0],
+            sourcedata[13]['Value'][0],
+            sourcedata[14]['Value'][0],
+        )  
+
+        if(sourcedatalocal['Id'] != undefined )
+        {
+            if ((sourcedata[0]['Value'][0]!=sourcedatalocal['FontName']) || (sourcedata[1]['Value'][0]!= sourcedatalocal['FontSize']) ||
+            (sourcedata[2]['Value'][0]!= sourcedatalocal['FontColour']) || (sourcedata[3]['Value'][0]!=sourcedatalocal['BGColour']) ||
+            (sourcedata[4]['Value'][0]!= sourcedatalocal['Separator']) || (sourcedata[5]['Value'][0]!= sourcedatalocal['Separator_ImageFilePath']) || 
+            (sourcedata[6]['Value'][0]!= sourcedatalocal['Separator_Line']) || (sourcedata[7]['Value'][0]!= sourcedatalocal['Separator_LineColour']) ||
+            (sourcedata[8]['Value'][0]!= sourcedatalocal['Separator_LineThickness']) || (sourcedata[9]['Value'][0]!= sourcedatalocal['Separator_SymbolFilePath']) ||
+            (sourcedata[10]['Value'][0]!= sourcedatalocal['Separator_SymbolColour']) || (sourcedata[11]['Value'][0]!= sourcedatalocal['Delay']) ||
+            (sourcedata[12]['Value'][0]!= sourcedatalocal['Step']) || (sourcedata[13]['Value'][0]!= sourcedatalocal['DelayPotrait']) ||
+            (sourcedata[14]['Value'][0]!= sourcedatalocal['StepPotrait']))
+            {
+                this.smartDisplayTickerSettingProvider.updateSmartDisplayTickerSettings(sourcedatalocal['Id'],
+                                                                                        sourcedata[0]['Value'][0],
+                                                                                        sourcedata[1]['Value'][0],
+                                                                                        sourcedata[2]['Value'][0],
+                                                                                        sourcedata[3]['Value'][0],
+                                                                                        sourcedata[4]['Value'][0],
+                                                                                        sourcedata[5]['Value'][0],
+                                                                                        sourcedata[6]['Value'][0],
+                                                                                        sourcedata[7]['Value'][0],
+                                                                                        sourcedata[8]['Value'][0],
+                                                                                        sourcedata[9]['Value'][0],
+                                                                                        sourcedata[10]['Value'][0],
+                                                                                        sourcedata[11]['Value'][0],
+                                                                                        sourcedata[12]['Value'][0],
+                                                                                        sourcedata[13]['Value'][0],
+                                                                                        sourcedata[14]['Value'][0],
+                )
+       
+            }
+           
+           
+        }
+        else
+        {
+            this.smartDisplayTickerSettingModel.saveSmartDisplayTickerSettings(TickerSetting);
+        }
+        
+        var updatesourcedatalocal = await this.smartDisplayTickerSettingProvider.getSmartDisplayTickerSettings();
+        console.log('data ticker',sourcedatalocal);
+        return updatesourcedatalocal;
     }
 
     async isRecordFound(playerId : string){
@@ -100,10 +176,9 @@ export class ApiSmartDisplayModel
         return isFound;
     }
     
-    saveData(sourceData){
+    saveData(sourceData, playerId = null){
         return new Promise(async (resolve, reject) => {
-            this.multimediModel.getDataByMultimediaId(sourceData['id'])
-            .then( data => {
+            var data = await this.multimediModel.getDataByMultimediaId(sourceData['id']);
                 var isValid = false;
                 var isAnyChange = false;
                 if(data['Id'] != undefined){
@@ -121,6 +196,13 @@ export class ApiSmartDisplayModel
                     || sourceData['days'] != data['Days']){
                         isValid = true;
                         isAnyChange = true;
+                    } else {
+
+                        this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, sourceData['id'])
+                        .then(res => {
+                        })
+                        .catch(err => {
+                        });
                     }
                 }
                 else{
@@ -164,7 +246,14 @@ export class ApiSmartDisplayModel
                                                 })
                                                 .catch(err => {
                                                     reject(err);
-                                                })                    
+                                                });
+
+                                                this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                                .then(res => {
+                                                })
+                                                .catch(err => {
+                                                });
+                                                resolve(object);                  
                                             })
                                             .catch(err => {
                                                 //console.error(err);
@@ -180,7 +269,12 @@ export class ApiSmartDisplayModel
                                         if(!isExist){
                                             this.localStorage.downloadFromFTP(localPath,  originPath)
                                             .then(async isDownloaded => { 
-
+                                                this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                                .then(res => {
+                                                })
+                                                .catch(err => {
+                                                });
+                                                resolve(object);  
                                             })
                                             .catch(err => {
                                                 reject(err);
@@ -218,6 +312,11 @@ export class ApiSmartDisplayModel
                                 resolve(object);   
                             }
                         } else {
+                            this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                            .then(res => {
+                            })
+                            .catch(err => {
+                            });
                             resolve(object);
                         }
                     } else {
@@ -228,6 +327,11 @@ export class ApiSmartDisplayModel
                             .then( isDownloaded => {
                                 this.multimediModel.saveData(object)
                                 .then(() => {
+                                    this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                    .then(res => {
+                                    })
+                                    .catch(err => {
+                                    });
                                     resolve(object);                            
                                 })
                                 .catch(err => {
@@ -241,17 +345,60 @@ export class ApiSmartDisplayModel
                         }
                     }
                 }
-            })
-            .catch(err => {
-                console.error(err);
-            });
         });
         
     }
 
     async doGetUpdatedTickerByPlayerID(playerid){
+        var returnData = {};
         var data = await this.apiSmartDisplayProvider.doGetUpdatedTickerByPlayerID(playerid);
-        return data['SmartDisplayAPI']['SmartDisplayAPIResult'][0];
+        
+        if(data['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SResultCode'] == "SUCCESS" 
+            && data['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayPlayer'][0]['LastUpdate'][0] != "null"){
+            var objectData = data['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTicker'][0]['TickerInfo'];
+            //await this.tickerModel.saveOrUpdateBatch(objectData);
+            //for (var i = 0 ; i< data['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTicker'][0]['TickerInfo'].length ; i++){
+                
+                var objectData = data['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTicker'][0]['TickerInfo'][0];
+                this.tickerModel.getDataByTickerId(objectData['ID'])
+                .then(existedTicker => {
+                    var newData = this.tickerModel.createObject(null, objectData['ID'], objectData['Name'], objectData['Text'], objectData['Priority']
+                                    , objectData['Active'], objectData['ActivationDate'], objectData['DeactivationDate'], objectData['IsDelete']);
+                    if(existedTicker['Id'] != undefined){
+                        newData['Id'] = existedTicker['Id'];
+                        this.tickerModel.updateData(newData)
+                        .then(isUpdated => {
+                            if(isUpdated){
+                                this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.TIKCER_SD, playerid, objectData['ID'])
+                                .then(res => {
+                                })
+                                .catch(err => {
+                                });
+                            }
+                        })
+                        .catch(err => {
+                        });   
+                    } else {
+                        this.tickerModel.saveData(newData)
+                        .then(isInserted => {
+                            if(isInserted){
+                                this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.TIKCER_SD, playerid, objectData['ID'])
+                                .then(res => {
+                                })
+                                .catch(err => {
+                               });
+                            }
+                        })
+                        .catch(err => {
+                        });   
+                    }
+                })
+                .catch(err => {
+                })
+        } else {
+        }
+        returnData = await this.tickerModel.getData();
+        return returnData;
     }
 
     reDownloadMultimedia(path,name,type,originPath)

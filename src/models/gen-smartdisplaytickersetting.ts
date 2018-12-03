@@ -10,23 +10,24 @@ export class SmartDisplayTickerSettingsModel{
     async init(){
         await this.dbSmartDisplayTickerSettings.init();
     }
-    saveSmartDisplayTickerSettings(TickerSettings){
-        this.dbSmartDisplayTickerSettings.saveSmartDisplayTickerSettings(
-                                                                TickerSettings['FontName'][0],
-                                                                TickerSettings['FontSize'][0],
-                                                                TickerSettings['FontColour'][0],
-                                                                TickerSettings['BGColour'][0],
-                                                                TickerSettings['Separator'][0],
-                                                                TickerSettings['Separator_ImageFilePath'][0],
-                                                                TickerSettings['Separator_Line'][0],
-                                                                TickerSettings['Separator_LineColour'][0],
-                                                                TickerSettings['Separator_LineThickness'][0],
-                                                                TickerSettings['Separator_SymbolFilePath'][0],
-                                                                TickerSettings['Separator_SymbolColour'][0],
-                                                                TickerSettings['Delay'][0],
-                                                                TickerSettings['Step'][0],
-                                                                TickerSettings['DelayPotrait'][0],
-                                                                TickerSettings['StepPotrait'][0])
+    async saveSmartDisplayTickerSettings(TickerSettings){
+        await this.dbSmartDisplayTickerSettings.saveSmartDisplayTickerSettings(
+                                                                TickerSettings['Id'],
+                                                                TickerSettings['FontName'],
+                                                                TickerSettings['FontSize'],
+                                                                TickerSettings['FontColour'],
+                                                                TickerSettings['BGColour'],
+                                                                TickerSettings['Separator'],
+                                                                TickerSettings['Separator_ImageFilePath'],
+                                                                TickerSettings['Separator_Line'],
+                                                                TickerSettings['Separator_LineColour'],
+                                                                TickerSettings['Separator_LineThickness'],
+                                                                TickerSettings['Separator_SymbolFilePath'],
+                                                                TickerSettings['Separator_SymbolColour'],
+                                                                TickerSettings['Delay'],
+                                                                TickerSettings['Step'],
+                                                                TickerSettings['DelayPotrait'],
+                                                                TickerSettings['StepPotrait'])
     }
 
     async getSmartDisplayTickerSettings(){
@@ -52,7 +53,7 @@ export class SmartDisplayTickerSettingsModel{
         StepPotrait : number
     )
     {
-        this.dbSmartDisplayTickerSettings.createObjectSmartDisplayTickerSettings(
+        return this.dbSmartDisplayTickerSettings.createObjectSmartDisplayTickerSettings(
             Id,
             FontName,
             FontSize,

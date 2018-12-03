@@ -106,7 +106,7 @@ export class DbSmartDisplayTickerSettingsProvider{
                                                         data.rows.item(i).StepPotrait);
                         }
                     }
-                    //console.log(user);
+                    //console.log('demoSetting',demoSetting);
                     resolve(demoSetting);
                 }, (error) => {
                     reject(error);
@@ -152,6 +152,7 @@ export class DbSmartDisplayTickerSettingsProvider{
     }
     
     async saveSmartDisplayTickerSettings(
+        Id : number,
         FontName: string, 
         FontSize: number,
         FontColour: string, 
@@ -173,7 +174,8 @@ export class DbSmartDisplayTickerSettingsProvider{
             location: 'default'
         })
         .then((db: SQLiteObject) => {
-            db.executeSql(`INSERT INTO SmartDisplayTickerSettings (FontName,
+            db.executeSql(`INSERT INTO SmartDisplayTickerSettings (Id,
+                                                FontName,
                                                 FontSize,
                                                 FontColour,
                                                 BGColour,
@@ -188,7 +190,9 @@ export class DbSmartDisplayTickerSettingsProvider{
                                                 Step,
                                                 DelayPotrait,
                                                 StepPotrait) 
-                            VALUES (?, ?, ?)`, [FontName,
+                            VALUES (?, ?, ? , ? ,?,?, ?, ? , ? ,?,?, ?, ? , ? ,?,?)`, 
+                                               [Id,
+                                                FontName,
                                                 FontSize,
                                                 FontColour,
                                                 BGColour,
@@ -214,29 +218,80 @@ export class DbSmartDisplayTickerSettingsProvider{
         });
     }
 
-    async updateSmartDisplayTickerSettings(Column : string, Value : any)
-    {
-       var isExist = await this.isDataExistSmartDisplayTickerSettings();
+
+    updateSmartDisplayTickerSettings( Id: number,
+        FontName: string, 
+        FontSize: number,
+        FontColour: string, 
+        BGColour: string,  
+        Separator: string , 
+        Separator_ImageFilePath: string,
+        Separator_Line: number, 
+        Separator_LineColour: string,  
+        Separator_LineThickness : number,
+        Separator_SymbolFilePath: string, 
+        Separator_SymbolColour: string,
+        Delay: number, 
+        Step: number,  
+        DelayPotrait : number,
+        StepPotrait : number){
+
+        return new Promise((resolve, reject) => {
             this.storage.create({
                 name: 'data.db',
                 location: 'default'
             })
             .then((db: SQLiteObject) => {
                 var sql = "";
-                if(isExist)
-                    sql = "UPDATE SmartDisplayTickerSettings set "+Column+" = ? WHERE Id = 1";
-                else
-                    sql = "INSERT INTO SmartDisplayTickerSettings ("+Column+") Values(?)";
-                    
-                db.executeSql(sql, [Value])
+                //if(isExist)
+                //    sql = "UPDATE Multimedia set BackupDate = ?, FormatedDate = ?, FileName = ? WHERE Id = 1";
+                //else
+                    sql = `UPDATE SmartDisplayTickerSettings SET
+                                    FontName = ?,
+                                    FontSize = ?,
+                                    FontColour = ?,
+                                    BGColour = ?,
+                                    Separator = ?,
+                                    Separator_ImageFilePath = ?, 
+                                    Separator_Line = ?,
+                                    Separator_LineColour = ?,
+                                    Separator_LineThickness = ?,
+                                    Separator_SymbolFilePath = ?,
+                                    Separator_SymbolColour = ?,
+                                    Delay = ?,
+                                    Step = ?,
+                                    DelayPotrait = ?,
+                                    StepPotrait = ?
+                            WHERE Id = ?`;
+    
+                db.executeSql(sql, [FontName,
+                                    FontSize,
+                                    FontColour,
+                                    BGColour,
+                                    Separator,
+                                    Separator_ImageFilePath,
+                                    Separator_Line,
+                                    Separator_LineColour,
+                                    Separator_LineThickness,
+                                    Separator_SymbolFilePath,
+                                    Separator_SymbolColour,
+                                    Delay,
+                                    Step,
+                                    DelayPotrait,
+                                    StepPotrait,
+                                    Id])
                 .then((data) => {
-                    console.log("SQL Updated");
+                    console.log("Ticker Setting updated SQL Insert Execute");
+                    resolve(true);
                     //resolve(data);
-                }, (error) => {
-                    //reject(error);
+                })
+                .catch((error) =>
+                {
+                    console.error(error);
+                    resolve(false);
                 });
             });
-        
+        });
     }
 
     isColumnExistSmartDisplayTickerSettings(columnName : string) : Promise<boolean>

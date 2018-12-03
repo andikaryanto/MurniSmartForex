@@ -105,45 +105,55 @@ export class DisplayimagevideoPage {
   async getTickerApi(){
     setInterval( async () => { 
       var ticker = await this.apiSmartDisplayModel.doGetUpdatedTickerByPlayerID(this.infoCustomer['PlayerID']);
-      if(this.apiTicker != undefined){
-        if(ticker['SResultCode'] == "SUCCESS"){
-          if(this.apiTicker['SmartDisplayPlayer'][0]['LastUpdate'][0] != ticker['SmartDisplayPlayer'][0]['LastUpdate'][0]){
-            this.apiTicker = ticker;
-            this.setTicker(this.apiTicker);
-          }
-        }
-      } else {
-        if(ticker['SResultCode'] == "SUCCESS"){
-          this.apiTicker = ticker;
-          this.setTicker(this.apiTicker);
-        }
-      }
+      this.apiTicker = ticker;
+      this.setTicker(this.apiTicker);
+      // if(this.apiTicker != undefined){
+      //   if(ticker['SResultCode'] == "SUCCESS"){
+      //     if(this.apiTicker['SmartDisplayPlayer'][0]['LastUpdate'][0] != ticker['SmartDisplayPlayer'][0]['LastUpdate'][0]){
+      //       this.apiTicker = ticker;
+      //       this.setTicker(this.apiTicker);
+      //     }
+      //   }
+      // } else {
+      //   if(ticker['SResultCode'] == "SUCCESS"){
+      //     this.apiTicker = ticker;
+      //     this.setTicker(this.apiTicker);
+      //   }
+      // }
     }, 1000);
   }
 
   setTicker(data){
     this.runningTickers = [];
-    var ticker = data['SmartDisplayTicker'][0]['TickerInfo'];
-    for(let i = 0 ; i < ticker.length; i++)
+    //var ticker = data['SmartDisplayTicker'][0]['TickerInfo'];
+    for(let i = 0 ; i < data.length; i++)
     { 
-      if(ticker[i]['IsDelete'] == "F" 
-        && this.helper.getLocalCurrentDate() <= this.helper.getDateFromString(ticker[i]['DeactivationDate'].toString(), 23, 59, 59)
-        && this.helper.getLocalCurrentDate() >= this.helper.getDateFromString(ticker[i]['ActivationDate'].toString())){
-          this.runningTickers.push(ticker[i]['Text']);
+
+      if(data[i]['IsDelete'] == "F" 
+        && this.helper.getLocalCurrentDate() <= this.helper.getDateFromString(data[i]['DeactivationDate'].toString(), 23, 59, 59)
+        && this.helper.getLocalCurrentDate() >= this.helper.getDateFromString(data[i]['ActivationDate'].toString())){
+          // for(let j = 0; j< this.runningTickers.length ; j++){
+            
+          // }
+          // if()
+
+          // var foundData = this.runningTickers.find(q => q.Id == data['Id']);
+          // if(){
+
+          // } else {
+            this.runningTickers.push(data[i]);
+          //}
       }
     }
-    console.log(this.runningTickers);
   }
 
+
   async getDataMultimediaApi(){
-    //this.backgrounds.push("file:///storage/emulated/0/Android/data/io.ionic.starter/files/Smart Images/panteq_20180926094132.jpg");
-    
-    //await this.getMultimedia();
     setInterval( async () => { 
       var data = await this.apiSmartDisplayModel.doGetUpdatedMultimediaByPlayerID(this.infoCustomer['PlayerID']);
       if(data['result'] == "SUCCESS"){
-        for(let i = 0 ; i < data['listMultimedia'].length; i++){
-          this.apiSmartDisplayModel.saveData(data['listMultimedia'][i])
+        //for(let i = 0 ; i < data['listMultimedia'].length; i++){
+          this.apiSmartDisplayModel.saveData(data['listMultimedia'][0], this.infoCustomer['PlayerID'])
           .then((object) => {
             if(this.backgrounds.length == 0){
               this.getMultimedia()
@@ -156,9 +166,9 @@ export class DisplayimagevideoPage {
           .catch(err => {
             //console.log("err", err)
           });
-        }
+        //}
       }
-    }, 1000);
+    }, 1500);
     await this.getMultimedia();
     //console.log("aa",this.backgrounds);
   }

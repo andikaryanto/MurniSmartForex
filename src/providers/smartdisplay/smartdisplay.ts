@@ -6,6 +6,7 @@ import * as xml2js from "xml2js";
 import { Http } from '@angular/http';
 import { DbServerProvider } from '../database/dbServer';
 import { rejects } from 'assert';
+import * as enums from "../../enum/enums";
 
 /*
   Generated class for the SmartdisplayProvider provider.
@@ -130,6 +131,35 @@ export class SmartdisplayProvider {
         console.error(err);
       });
     });
+  }
+
+  async doGetLastUpdateContentByPlayerID(type , playerId, id){
+    var server = await this.dbServerProvider.getServer();
+    this.apiUrl = "http://"+server["ServerIP"]+":"+server["ServerPort"]+"/";
+    var stringType = "";
+    if(type == enums.ContentType.MULTIMEDIA_SD)
+      stringType = "MULTIMEDIA_SD";
+    else
+      stringType = "TICKER_SD";
+
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + "sdapi/SmartDisplay.bss?methodName=doGetLastUpdateContentByPlayerID&displayPlayerID="+playerId+"&moduleName="+stringType+"&contentID="+id)
+      .subscribe(data => {
+        xml2js
+        .parseString(data.text(), (error, result) => {
+
+        if(error) {
+            console.error(error);
+        } else {
+            resolve(result);
+        }
+
+      });
+      }, err => {
+        console.error(err);
+      });
+    });
+
   }
 }
 

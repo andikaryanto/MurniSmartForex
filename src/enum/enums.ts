@@ -59,3 +59,8 @@ export enum HttpStatus{
     
 }
 
+export enum ContentType{
+    TIKCER_SD = 0,
+    MULTIMEDIA_SD = 1
+}
+

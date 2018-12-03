@@ -127,9 +127,7 @@ export class DbServerProvider{
     }
 
     public getServer() {
-        return new Promise((resolve, reject) => {
-        // var db : SQLiteObject
-        
+        return new Promise((resolve, reject) => {        
             let demoSetting = {};
             this.storage.create({
                 name: 'data.db',

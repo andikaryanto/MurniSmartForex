@@ -464,7 +464,7 @@ export class DbMultimediaProvider
                 location: 'default'
             })
             .then((db: SQLiteObject) => {
-                db.executeSql("SELECT DISTINCT * FROM Multimedia")
+                db.executeSql("SELECT DISTINCT * FROM Multimedia" ,[])
                 .then((data) => {
                     console.log(data.rows.length);
                     if(data.rows.length > 0) {

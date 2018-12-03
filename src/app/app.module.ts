@@ -45,6 +45,9 @@ import { DbBackUpStatusProvider } from '../providers/database/dbBackupStatus';
 import { DbRestoreStatusProvider } from '../providers/database/dbRestoreStatus';
 import { DbMultimediaProvider } from '../providers/database/dbMultimedia';
 import { DbSmartDisplayTickerSettingsProvider } from '../providers/database/dbSmartDisplayTickerSettings';
+import { DbTickerProvider } from '../providers/database/dbTicker';
+import { DbServerProvider } from '../providers/database/dbServer';
+import { DbSftpProvider } from '../providers/database/dbSftp';
 
 //model
 import { MUserModel } from '../models/m-usermodel';
@@ -59,6 +62,10 @@ import { SmartDisplayPlayerConfigurationModel } from '../models/gen-smartdisplay
 import { BackupStatusModel } from '../models/gen-backupstatus';
 import { RestoreStatusModel } from '../models/gen-restorestatus';
 import { MultimediaModel } from '../models/gen-multimedia';
+import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplaytickersetting';
+import { TickerModel } from '../models/gen-ticker';
+import { SftpModel } from '../models/gen-sftp';
+import { ServerModel } from '../models/gen-server';
 
 //helper
 import { Helper } from '../helper/helper';
@@ -91,13 +98,8 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { AES256 } from '@ionic-native/aes-256';
 import { Device } from '@ionic-native/device';
 import { FTP } from '@ionic-native/ftp';
-import { DbServerProvider } from '../providers/database/dbServer';
-import { ServerModel } from '../models/gen-server';
 import { CodePush } from '@ionic-native/code-push';
-import { DbSftpProvider } from '../providers/database/dbSftp';
-import { SftpModel } from '../models/gen-sftp';
 import { Insomnia } from '@ionic-native/insomnia';
-import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplaytickersetting';
 
 @NgModule({
   declarations: [
@@ -175,6 +177,7 @@ import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplayticke
     LocalStorageProvider,
     DbSftpProvider,
     DbSmartDisplayTickerSettingsProvider,
+    DbTickerProvider,
 
     MUserModel,
     MUserProfileModel,
@@ -197,6 +200,7 @@ import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplayticke
     MultimediaModel,
     ServerModel,
     SftpModel,
+    TickerModel,
 
     Helper,
 

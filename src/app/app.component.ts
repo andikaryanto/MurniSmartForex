@@ -38,6 +38,7 @@ import { DisplaytabularlandscapePage } from '../pages/displaytabularlandscape/di
 import { Insomnia } from '@ionic-native/insomnia';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplaytickersetting';
+import { TickerModel } from '../models/gen-ticker';
 
 @Component({
   templateUrl: 'app.html'
@@ -89,7 +90,8 @@ isAppUpdated : boolean = false;
               private loadingCtrl : LoadingController,
               private toast : CustomToast,
               private alertCtrl : AlertController,
-              private insomnisa : Insomnia
+              private insomnisa : Insomnia,
+              private tickerModel : TickerModel
               ) {
     this.InitializeComponent();
     this.resources();
@@ -208,6 +210,7 @@ isAppUpdated : boolean = false;
       this.restoreStatusModel.init();
       this.sftpModel.init();
       this.smartDisplayTickerSettingsModel.init();
+      this.tickerModel.init();
       
   }
 
