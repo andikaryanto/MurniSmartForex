@@ -98,73 +98,106 @@ export class ApiSmartDisplayModel
         return dataMultimedia;
     }
 
-    async doGetTickerSettingByPlayerId(playerId : string){
-        var isAnyChange = false;
-        var dataTickerSetting = await this.apiSmartDisplayProvider.doGetTickerSettingByPlayerId(playerId);
-        //console.log('here',dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo']);
-        var sourcedata = dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo']
-        //console.log('here : ',sourcedata[0]['Value'][0]);
-        var sourcedatalocal = await this.smartDisplayTickerSettingProvider.getSmartDisplayTickerSettings();
-        var TickerSetting= this.smartDisplayTickerSettingModel.createObjectSmartDisplayTickerSettings(
-            null,
-            sourcedata[0]['Value'][0],
-            sourcedata[1]['Value'][0],
-            sourcedata[2]['Value'][0],
-            sourcedata[3]['Value'][0],
-            sourcedata[4]['Value'][0],
-            sourcedata[5]['Value'][0],
-            sourcedata[6]['Value'][0],
-            sourcedata[7]['Value'][0],
-            sourcedata[8]['Value'][0],
-            sourcedata[9]['Value'][0],
-            sourcedata[10]['Value'][0],
-            sourcedata[11]['Value'][0],
-            sourcedata[12]['Value'][0],
-            sourcedata[13]['Value'][0],
-            sourcedata[14]['Value'][0],
-        )  
+    // async doGetTickerSettingByPlayerId(playerId : string){
+    //     var isAnyChange = false;
+    //     var updatesourcedatalocal ={};
+    //     var dataTickerSetting = await this.apiSmartDisplayProvider.doGetTickerSettingByPlayerId(playerId);
+    //     //console.log('here',dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo']);
+    //     var sourcedata = dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo']
+    //     //console.log('here : ',sourcedata[0]['Value'][0]);
+    //     var sourcedatalocal = await this.smartDisplayTickerSettingProvider.getSmartDisplayTickerSettings();
+    //     var TickerSetting= this.smartDisplayTickerSettingModel.createObjectSmartDisplayTickerSettings(
+    //         null,
+    //         sourcedata[0]['Value'][0],
+    //         sourcedata[1]['Value'][0],
+    //         sourcedata[2]['Value'][0],
+    //         sourcedata[3]['Value'][0],
+    //         sourcedata[4]['Value'][0],
+    //         sourcedata[5]['Value'][0],
+    //         sourcedata[6]['Value'][0],
+    //         sourcedata[7]['Value'][0],
+    //         sourcedata[8]['Value'][0],
+    //         sourcedata[9]['Value'][0],
+    //         sourcedata[10]['Value'][0],
+    //         sourcedata[11]['Value'][0],
+    //         sourcedata[12]['Value'][0],
+    //         sourcedata[13]['Value'][0],
+    //         sourcedata[14]['Value'][0],
+    //     )  
 
-        if(sourcedatalocal['Id'] != undefined )
-        {
-            if ((sourcedata[0]['Value'][0]!=sourcedatalocal['FontName']) || (sourcedata[1]['Value'][0]!= sourcedatalocal['FontSize']) ||
-            (sourcedata[2]['Value'][0]!= sourcedatalocal['FontColour']) || (sourcedata[3]['Value'][0]!=sourcedatalocal['BGColour']) ||
-            (sourcedata[4]['Value'][0]!= sourcedatalocal['Separator']) || (sourcedata[5]['Value'][0]!= sourcedatalocal['Separator_ImageFilePath']) || 
-            (sourcedata[6]['Value'][0]!= sourcedatalocal['Separator_Line']) || (sourcedata[7]['Value'][0]!= sourcedatalocal['Separator_LineColour']) ||
-            (sourcedata[8]['Value'][0]!= sourcedatalocal['Separator_LineThickness']) || (sourcedata[9]['Value'][0]!= sourcedatalocal['Separator_SymbolFilePath']) ||
-            (sourcedata[10]['Value'][0]!= sourcedatalocal['Separator_SymbolColour']) || (sourcedata[11]['Value'][0]!= sourcedatalocal['Delay']) ||
-            (sourcedata[12]['Value'][0]!= sourcedatalocal['Step']) || (sourcedata[13]['Value'][0]!= sourcedatalocal['DelayPotrait']) ||
-            (sourcedata[14]['Value'][0]!= sourcedatalocal['StepPotrait']))
-            {
-                this.smartDisplayTickerSettingProvider.updateSmartDisplayTickerSettings(sourcedatalocal['Id'],
-                                                                                        sourcedata[0]['Value'][0],
-                                                                                        sourcedata[1]['Value'][0],
-                                                                                        sourcedata[2]['Value'][0],
-                                                                                        sourcedata[3]['Value'][0],
-                                                                                        sourcedata[4]['Value'][0],
-                                                                                        sourcedata[5]['Value'][0],
-                                                                                        sourcedata[6]['Value'][0],
-                                                                                        sourcedata[7]['Value'][0],
-                                                                                        sourcedata[8]['Value'][0],
-                                                                                        sourcedata[9]['Value'][0],
-                                                                                        sourcedata[10]['Value'][0],
-                                                                                        sourcedata[11]['Value'][0],
-                                                                                        sourcedata[12]['Value'][0],
-                                                                                        sourcedata[13]['Value'][0],
-                                                                                        sourcedata[14]['Value'][0],
-                )
-       
-            }
-           
-           
-        }
-        else
-        {
-            this.smartDisplayTickerSettingModel.saveSmartDisplayTickerSettings(TickerSetting);
-        }
+    //     if(sourcedatalocal['Id'] != undefined )
+    //     {
+    //         if ((sourcedata[0]['Value'][0]!=sourcedatalocal['FontName']) || (sourcedata[1]['Value'][0]!= sourcedatalocal['FontSize']) ||
+    //         (sourcedata[2]['Value'][0]!= sourcedatalocal['FontColour']) || (sourcedata[3]['Value'][0]!=sourcedatalocal['BGColour']) ||
+    //         (sourcedata[4]['Value'][0]!= sourcedatalocal['Separator']) || (sourcedata[5]['Value'][0]!= sourcedatalocal['Separator_ImageFilePath']) || 
+    //         (sourcedata[6]['Value'][0]!= sourcedatalocal['Separator_Line']) || (sourcedata[7]['Value'][0]!= sourcedatalocal['Separator_LineColour']) ||
+    //         (sourcedata[8]['Value'][0]!= sourcedatalocal['Separator_LineThickness']) || (sourcedata[9]['Value'][0]!= sourcedatalocal['Separator_SymbolFilePath']) ||
+    //         (sourcedata[10]['Value'][0]!= sourcedatalocal['Separator_SymbolColour']) || (sourcedata[11]['Value'][0]!= sourcedatalocal['Delay']) ||
+    //         (sourcedata[12]['Value'][0]!= sourcedatalocal['Step']) || (sourcedata[13]['Value'][0]!= sourcedatalocal['DelayPotrait']) ||
+    //         (sourcedata[14]['Value'][0]!= sourcedatalocal['StepPotrait']))
+    //         {
+    //             this.smartDisplayTickerSettingProvider.updateSmartDisplayTickerSettings(sourcedatalocal['Id'],
+    //                                                                                     sourcedata[0]['Value'][0],
+    //                                                                                     sourcedata[1]['Value'][0],
+    //                                                                                     sourcedata[2]['Value'][0],
+    //                                                                                     sourcedata[3]['Value'][0],
+    //                                                                                     sourcedata[4]['Value'][0],
+    //                                                                                     sourcedata[5]['Value'][0],
+    //                                                                                     sourcedata[6]['Value'][0],
+    //                                                                                     sourcedata[7]['Value'][0],
+    //                                                                                     sourcedata[8]['Value'][0],
+    //                                                                                     sourcedata[9]['Value'][0],
+    //                                                                                     sourcedata[10]['Value'][0],
+    //                                                                                     sourcedata[11]['Value'][0],
+    //                                                                                     sourcedata[12]['Value'][0],
+    //                                                                                     sourcedata[13]['Value'][0],
+    //                                                                                     sourcedata[14]['Value'][0],
+    //             )
+    //            isAnyChange = true;
+    //         }
+    //         else
+    //         {
+    //             isAnyChange= false;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         this.smartDisplayTickerSettingModel.saveSmartDisplayTickerSettings(TickerSetting);
+    //         isAnyChange = true;
+    //     }
         
-        var updatesourcedatalocal = await this.smartDisplayTickerSettingProvider.getSmartDisplayTickerSettings();
-        console.log('data ticker',sourcedatalocal);
-        return updatesourcedatalocal;
+    //     if(isAnyChange)
+    //     {
+    //         updatesourcedatalocal = await this.smartDisplayTickerSettingProvider.getSmartDisplayTickerSettings();
+    //     }
+        
+    //     console.log('data ticker',sourcedatalocal);
+    //     return updatesourcedatalocal;
+    // }
+
+    async doGetTickerSettingByPlayerId(playerId : string){
+
+            var dataTickerSetting = await this.apiSmartDisplayProvider.doGetTickerSettingByPlayerId(playerId);
+            var sourcedata = dataTickerSetting['SmartDisplayAPI']['SmartDisplayAPIResult'][0]['SmartDisplayTickerSettings'][0]['TickerSettingsInfo'];
+            var TickerSetting= this.smartDisplayTickerSettingModel.createObjectSmartDisplayTickerSettings(
+                        null,
+                        sourcedata[0]['Value'][0],
+                        sourcedata[1]['Value'][0],
+                        sourcedata[2]['Value'][0],
+                        sourcedata[3]['Value'][0],
+                        sourcedata[4]['Value'][0],
+                        sourcedata[5]['Value'][0],
+                        sourcedata[6]['Value'][0],
+                        sourcedata[7]['Value'][0],
+                        sourcedata[8]['Value'][0],
+                        sourcedata[9]['Value'][0],
+                        sourcedata[10]['Value'][0],
+                        sourcedata[11]['Value'][0],
+                        sourcedata[12]['Value'][0],
+                        sourcedata[13]['Value'][0],
+                        sourcedata[14]['Value'][0],
+                    )  
+            this.smartDisplayTickerSettingModel.saveSmartDisplayTickerSettings(TickerSetting);
     }
 
     async isRecordFound(playerId : string){

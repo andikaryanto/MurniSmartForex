@@ -83,13 +83,10 @@ page-displayimagevideo {
         // flex-direction: column;
         //padding: 5px;
         /* Starting position */
-        -moz-transform:translateX(100%);
-        -webkit-transform:translateX(100%);
         transform:translateX(100%);
+        //animation: example1 40s linear infinite;
         /* Apply animation to this element */
-        -moz-animation: example1 30s linear infinite; 
-        -webkit-animation: example1 30s linear infinite;
-        animation: example1 30s linear infinite;
+        
         .imgRunning
         {
             //left: -50px;
@@ -120,23 +117,11 @@ page-displayimagevideo {
         
     }
     /* Move it (define the animation) */
-    @-moz-keyframes example1 {
-        0%   { -moz-transform: translateX(100%); }
-        100% { -moz-transform: translateX(-100%); }
-    }
-    @-webkit-keyframes example1 {
-        0%   { -webkit-transform: translateX(100%); }
-        100% { -webkit-transform: translateX(-100%); }
-    }
     @keyframes example1 {
         0%   {
-        -moz-transform: translateX(100%); /* Firefox bug fix */
-        -webkit-transform: translateX(100%); /* Firefox bug fix */
-        transform: translateX(100%);
+        transform: translateX(0%);
         }
         100% {
-        -moz-transform: translateX(-100%); /* Firefox bug fix */
-        -webkit-transform: translateX(-100%); /* Firefox bug fix */
         transform: translateX(-100%);
         }
     }    

@@ -30,11 +30,20 @@
   </div>
 </ion-content>
 
-<div id ="scrolText" *ngIf = "isUseTicker" class="example1">
+<!-- <div id ="scrolText" *ngIf = "isUseTicker" class="example1">
   <div class = "mover" >
       <div class ="imageTextWrapper" *ngFor = "let data of runningTickers">
               <img class ="imgRunning" src = "assets/logo/murni.png" >
               <div class = "textRunning">{{data.Texts}}</div>
+      </div>
+  </div>
+</div> -->
+
+<div id ="scrolText" *ngIf = "isUseTicker" class="example1 " [ngStyle] = "footerStyle()">
+  <div class = "mover" [ngStyle]="timerTickerSetting()" >
+      <div class ="imageTextWrapper" *ngFor = "let data of runningTickers">
+              <img class ="imgRunning" src = "assets/logo/murni.png" >
+              <div class = "textRunning" [ngClass] = "textStyle()">{{data.Texts}} </div>
       </div>
   </div>
 </div>

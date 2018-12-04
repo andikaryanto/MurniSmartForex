@@ -18,6 +18,7 @@ import { DisplaytabularlandscapePage } from '../displaytabularlandscape/displayt
 import { DisplaytabularpotraitPage } from '../displaytabularpotrait/displaytabularpotrait';
 import { SettingPage } from '../setting/setting';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
+import { SmartDisplayTickerSettingsModel } from '../../models/gen-smartdisplaytickersetting';
 
 /**
  * Generated class for the DisplayimagevideoPage page.
@@ -56,6 +57,9 @@ export class DisplayimagevideoPage {
   private slideSpeed : number;
   private autoPlay : number;
   private runningTickers = [];
+  private delay : number;
+  private timerTicker : number;
+  private tickersetting = {};
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -68,9 +72,11 @@ export class DisplayimagevideoPage {
               private androidFullScreen: AndroidFullScreen,
               private apiSmartDisplayModel : ApiSmartDisplayModel,
               private smartDisplayCustomerInfoModel : SmartDisplayCustomerInfoModel,
+              private smartDisplayTickerSettingModel : SmartDisplayTickerSettingsModel,
               private smartDisplayPlayerConfigurationModel : SmartDisplayPlayerConfigurationModel,
               private helper : Helper,
               private multimediaModel : MultimediaModel,
+              private smartDisplayTickerSettingsModel : SmartDisplayTickerSettingsModel,
               private menuCtrl : MenuController) {
               //this.init();
   }
@@ -78,6 +84,7 @@ export class DisplayimagevideoPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DemoimagevideoPage');
     this.initApi();
+   
   }
   //api file region
   async initApi(){
@@ -96,13 +103,20 @@ export class DisplayimagevideoPage {
     await this.getDataMultimediaApi();
     // if(this.sdPlayerConfig['LayoutContain'] == Enums.LayoutContain.FullMultimediaandticker){
       this.isUseTicker = true;
-      
       await this.getTickerApi();
+      await this.getTickerSetting();
       this.scrollingTextElement();
     // }
   }
 
+  async getTickerSetting()
+    {
+         this.tickersetting = await this.smartDisplayTickerSettingsModel.getSmartDisplayTickerSettings();
+        
+    }
+
   async getTickerApi(){
+    
     setInterval( async () => { 
       var ticker = await this.apiSmartDisplayModel.doGetUpdatedTickerByPlayerID(this.infoCustomer['PlayerID']);
       this.apiTicker = ticker;
@@ -120,34 +134,37 @@ export class DisplayimagevideoPage {
       //     this.setTicker(this.apiTicker);
       //   }
       // }
-    }, 1000);
+    }, 1000);//this.tickersetting['Delay']);
   }
 
   setTicker(data){
     this.runningTickers = [];
     //var ticker = data['SmartDisplayTicker'][0]['TickerInfo'];
-    for(let i = 0 ; i < data.length; i++)
-    { 
-
-      if(data[i]['IsDelete'] == "F" 
-        && this.helper.getLocalCurrentDate() <= this.helper.getDateFromString(data[i]['DeactivationDate'].toString(), 23, 59, 59)
-        && this.helper.getLocalCurrentDate() >= this.helper.getDateFromString(data[i]['ActivationDate'].toString())){
-          // for(let j = 0; j< this.runningTickers.length ; j++){
-            
-          // }
-          // if()
-
-          // var foundData = this.runningTickers.find(q => q.Id == data['Id']);
-          // if(){
-
-          // } else {
-            this.runningTickers.push(data[i]);
-          //}
+   
+      for(let i = 0 ; i < data.length; i++)
+      { 
+  
+        if(data[i]['IsDelete'] == "F" 
+          && this.helper.getLocalCurrentDate() <= this.helper.getDateFromString(data[i]['DeactivationDate'].toString(), 23, 59, 59)
+          && this.helper.getLocalCurrentDate() >= this.helper.getDateFromString(data[i]['ActivationDate'].toString())){
+            // for(let j = 0; j< this.runningTickers.length ; j++){
+              
+            // }
+            // if()
+  
+            // var foundData = this.runningTickers.find(q => q.Id == data['Id']);
+            // if(){
+  
+            // } else {
+              this.runningTickers.push(data[i]);
+              //console.log('ticker : ', this.runningTickers)
+            //}
+        }
       }
-    }
+    
+    
   }
-
-
+  
   async getDataMultimediaApi(){
     setInterval( async () => { 
       var data = await this.apiSmartDisplayModel.doGetUpdatedMultimediaByPlayerID(this.infoCustomer['PlayerID']);
@@ -564,4 +581,40 @@ export class DisplayimagevideoPage {
       this.navCtrl.setRoot(DisplaytabularpotraitPage);
   }
 
+  timerTickerSetting() {
+    let styles = {
+       //'color': '#'+this.tickersetting['FontColour']+'',
+       'position': 'absolute',
+       'height': 'inherit',
+       //'background-color' : '#'+this.tickersetting['BGColour']+'',
+       'margin': '0',
+       'text-align': 'center',
+       'display': 'inline-block',
+       'width': 'max-content',
+       '-moz-transform':'translateX(100%)',
+       '-webkit-transform':'translateX(100%)',
+       'transform':'translateX(100%)',
+       //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
+       'animation': 'example1 10s linear infinite',
+
+    };
+    return styles;
+  }
+
+  footerStyle(){  
+    let styles =  {
+    'background-color' : '#'+this.tickersetting['BGColour']+'',
+    }
+    return styles;
+  }
+
+  textStyle(){
+    let styles =  {
+      'color': '#'+this.tickersetting['FontColour']+'',
+      'font-family': this.tickersetting['FontName'] + ', sen-serif',
+    }
+    return styles;
+  }
+
+ 
 }

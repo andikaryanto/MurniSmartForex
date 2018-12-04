@@ -11,6 +11,7 @@ import { RegistersettingPage } from '../registersetting/registersetting';
 import { DisplaytabularpotraitPage } from '../displaytabularpotrait/displaytabularpotrait';
 import { DisplaytabularlandscapePage } from '../displaytabularlandscape/displaytabularlandscape';
 import { DisplayimagevideoPage } from '../displayimagevideo/displayimagevideo';
+import { SmartDisplayTickerSettingsModel } from '../../models/gen-smartdisplaytickersetting';
 
 /**
  * Generated class for the RegisterPage page.
@@ -49,6 +50,7 @@ export class RegisterPage {
               private device :  Device,
               private apiSmartDisplayModel : ApiSmartDisplayModel,
               private smartDisplayPlayerConfigurationModel : SmartDisplayPlayerConfigurationModel,
+              private smartDisplayTickerSettingModel : SmartDisplayTickerSettingsModel,
               private serverModel : ServerModel,
               private loadingCtrl : LoadingController,
               private resources : Resource,
@@ -85,6 +87,7 @@ export class RegisterPage {
     });
     loading.present();
     if(await this.apiSmartDisplayModel.saveSmartDisplayConfig(this.playerid, uniqueId)){
+      this.saveTickerSetting();
       var sDPlayerConfig = await this.smartDisplayPlayerConfigurationModel.getSmartDisplayPlayerConfiguration();
       // if(sDPlayerConfig['LayoutContain'] == Enums.LayoutContain.TabularInformationand1per3Multimedia 
       //     || sDPlayerConfig['LayoutContain'] == Enums.LayoutContain.FullTabularInformation){
@@ -117,6 +120,11 @@ export class RegisterPage {
     else 
       this.isEnabledRegisterButton = false;
     //console.log(this.serverModels['ServerIP'], this.serverModels['ServerPort'], this.playerid);
+  }
+
+  async saveTickerSetting()
+  {
+       await this.apiSmartDisplayModel.doGetTickerSettingByPlayerId(this.playerid); 
   }
 
 }

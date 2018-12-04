@@ -18,7 +18,7 @@ export class DbServerProvider{
                 await this.alterTableServer();
                 //await this.deleteServer();
                 await this.defaultData();
-                await this.updateData();
+                //await this.updateData();
             }
          })
          .catch(err => {
@@ -72,7 +72,7 @@ export class DbServerProvider{
                     location: 'default'
                 })
                 .then((db: SQLiteObject) => {
-                    db.executeSql("Insert into Server (serverIP, ServerPort) values ('www.bsscloud.com.au', '8181')", [])
+                    db.executeSql("Insert into Server (serverIP, ServerPort) values ('www.bsscloud.com.au', '8080')", [])
                     .then((data) => {
                         //console.log("insert server yes");
                         //resolve(true);
