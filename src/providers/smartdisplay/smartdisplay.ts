@@ -92,7 +92,7 @@ export class SmartdisplayProvider {
   async doGetUpdatedTickerByPlayerID(playerId : string){
     var server = await this.dbServerProvider.getServer();
     this.apiUrl = "http://"+server["ServerIP"]+":"+server["ServerPort"]+"/";
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this.http.get(this.apiUrl + "sdapi/SmartDisplay.bss?methodName=doGetUpdatedTickerByPlayerID&displayPlayerID="+playerId)
       .subscribe(data => {
         xml2js
@@ -106,7 +106,7 @@ export class SmartdisplayProvider {
 
       });
       }, err => {
-        console.error(err);
+        reject(err);
       });
     });
   }
@@ -114,7 +114,7 @@ export class SmartdisplayProvider {
   async doGetTickerSettingByPlayerId(playerId : string){
     var server = await this.dbServerProvider.getServer();
     this.apiUrl = "http://"+server["ServerIP"]+":"+server["ServerPort"]+"/";
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this.http.get(this.apiUrl + "sdapi/SmartDisplay.bss?methodName=doGetUpdatedTickerSettingsByPlayerID&displayPlayerID="+playerId)
       .subscribe(data => {
         xml2js
@@ -128,7 +128,7 @@ export class SmartdisplayProvider {
 
       });
       }, err => {
-        console.error(err);
+        reject(err);
       });
     });
   }
@@ -142,7 +142,7 @@ export class SmartdisplayProvider {
     else
       stringType = "TICKER_SD";
 
-    return new Promise(resolve => {
+    return new Promise((resolve, reject)=> {
       this.http.get(this.apiUrl + "sdapi/SmartDisplay.bss?methodName=doGetLastUpdateContentByPlayerID&displayPlayerID="+playerId+"&moduleName="+stringType+"&contentID="+id)
       .subscribe(data => {
         xml2js
@@ -156,6 +156,7 @@ export class SmartdisplayProvider {
 
       });
       }, err => {
+        reject(err);
         console.error(err);
       });
     });

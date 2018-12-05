@@ -428,7 +428,7 @@ export class DbTickerProvider
                 location: 'default'
             })
             .then((db: SQLiteObject) => {
-                db.executeSql("SELECT * FROM Ticker", [])
+                db.executeSql("SELECT * FROM Ticker WHERE IsDelete = 'F' ORDER BY Priority", [])
                 .then((data) => {
                     console.log(data.rows.length);
                     if(data.rows.length > 0) {

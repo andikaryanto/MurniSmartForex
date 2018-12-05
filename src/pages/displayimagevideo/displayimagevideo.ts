@@ -19,6 +19,7 @@ import { DisplaytabularpotraitPage } from '../displaytabularpotrait/displaytabul
 import { SettingPage } from '../setting/setting';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { SmartDisplayTickerSettingsModel } from '../../models/gen-smartdisplaytickersetting';
+import { TickerModel } from '../../models/gen-ticker';
 
 /**
  * Generated class for the DisplayimagevideoPage page.
@@ -60,6 +61,8 @@ export class DisplayimagevideoPage {
   private delay : number;
   private timerTicker : number;
   private tickersetting = {};
+  private tickersLength : number;
+  private width:number;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -77,6 +80,7 @@ export class DisplayimagevideoPage {
               private helper : Helper,
               private multimediaModel : MultimediaModel,
               private smartDisplayTickerSettingsModel : SmartDisplayTickerSettingsModel,
+              private tickerModel : TickerModel,
               private menuCtrl : MenuController) {
               //this.init();
   }
@@ -84,6 +88,7 @@ export class DisplayimagevideoPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DemoimagevideoPage');
     this.initApi();
+
    
   }
   //api file region
@@ -105,6 +110,7 @@ export class DisplayimagevideoPage {
       this.isUseTicker = true;
       await this.getTickerApi();
       await this.getTickerSetting();
+      //this.popPushTicker();
       this.scrollingTextElement();
     // }
   }
@@ -116,10 +122,27 @@ export class DisplayimagevideoPage {
     }
 
   async getTickerApi(){
-    
-    setInterval( async () => { 
-      var ticker = await this.apiSmartDisplayModel.doGetUpdatedTickerByPlayerID(this.infoCustomer['PlayerID']);
-      this.apiTicker = ticker;
+    this.apiTicker = await this.tickerModel.getData();
+    this.setTicker(this.apiTicker);
+    console.log("ticker first", this.apiTicker)
+    setInterval(async () => { 
+      var isUpdated = await this.apiSmartDisplayModel.doGetUpdatedTickerByPlayerID(this.infoCustomer['PlayerID']);
+      console.log("isUpdated", isUpdated);
+      // if (isUpdated)
+      // {
+      //   this.apiTicker = await this.tickerModel.getData();
+      //   console.log("ticker if", this.apiTicker)
+      //   this.setTicker(this.apiTicker);
+      // }
+      // else
+      // {
+      //   if(this.runningTickers.length == 0){
+      //     this.apiTicker = await this.tickerModel.getData();
+      //     this.setTicker(this.apiTicker);
+      //   }
+      // }    
+      
+      this.apiTicker = await this.tickerModel.getData();
       this.setTicker(this.apiTicker);
       // if(this.apiTicker != undefined){
       //   if(ticker['SResultCode'] == "SUCCESS"){
@@ -134,35 +157,36 @@ export class DisplayimagevideoPage {
       //     this.setTicker(this.apiTicker);
       //   }
       // }
-    }, 1000);//this.tickersetting['Delay']);
+
+    }, 5000);//this.tickersetting['Delay']);
   }
 
   setTicker(data){
-    this.runningTickers = [];
+    this.runningTickers=[];
+    this.tickersLength = data.length;
     //var ticker = data['SmartDisplayTicker'][0]['TickerInfo'];
-   
-      for(let i = 0 ; i < data.length; i++)
-      { 
   
-        if(data[i]['IsDelete'] == "F" 
-          && this.helper.getLocalCurrentDate() <= this.helper.getDateFromString(data[i]['DeactivationDate'].toString(), 23, 59, 59)
-          && this.helper.getLocalCurrentDate() >= this.helper.getDateFromString(data[i]['ActivationDate'].toString())){
-            // for(let j = 0; j< this.runningTickers.length ; j++){
-              
-            // }
-            // if()
-  
-            // var foundData = this.runningTickers.find(q => q.Id == data['Id']);
-            // if(){
-  
-            // } else {
-              this.runningTickers.push(data[i]);
-              //console.log('ticker : ', this.runningTickers)
-            //}
-        }
+    for(let i = 0 ; i < data.length; i++)
+    { 
+
+      if(data[i]['IsDelete'] == "F" 
+        && this.helper.getLocalCurrentDate() <= this.helper.getDateFromString(data[i]['DeactivationDate'].toString(), 23, 59, 59)
+        && this.helper.getLocalCurrentDate() >= this.helper.getDateFromString(data[i]['ActivationDate'].toString())){
+          // for(let j = 0; j< this.runningTickers.length ; j++){
+            
+          // }
+          // if()
+
+          // var foundData = this.runningTickers.find(q => q.Id == data['Id']);
+          // if(){
+
+          // } else {
+            this.runningTickers.push(data[i]);
+            //console.log('ticker : ', this.runningTickers)
+          //}
       }
-    
-    
+    }
+   
   }
   
   async getDataMultimediaApi(){
@@ -357,7 +381,7 @@ export class DisplayimagevideoPage {
 
   async getMultimedia()
   {
-    if(this.demoSetting['MultimediaPriority'] ===  Enums.MultimediType.Image)
+    if(1 ===  Enums.MultimediType.Image)
     {
       await this.getImage();
     }
@@ -448,15 +472,21 @@ export class DisplayimagevideoPage {
       video.play()
       .then()
       .catch((err)=>{
-        console.log(err);
-        if (err.toString()=== errorMessage.multimediaNotSupported)
-        {
+        // console.log(err);
+        // if (err.toString() === errorMessage.multimediaNotSupported)
+        // {
+          console.log("DOM error");
           this.videos.splice(this.videosPlayed,1);
           var path = this.localStorage.getPath(url,1);
           var name = this.localStorage.getName(url);
           this.apiSmartDisplayModel.reDownloadMultimedia(path,name,Enums.ApiSmartDisplayMultimediaType.VCD, originpath);
-
-        } 
+          
+          this.getMultimedia()
+          .then(()=>{
+          })
+          .catch(err => {
+          });
+        // } 
         // this.getImage()
         // .then(()=>console.log('Succes'))
         // .catch(err=>console.log(err));
@@ -480,8 +510,7 @@ export class DisplayimagevideoPage {
       var height = window.outerHeight;
       // this.renderer.setElementStyle(this.scrollingText.nativeElement
       //   , 'top' , 'calc('+height+'px - 50px)'); //-290px
-      document.getElementById("scrolText").style.top = (height - 50) + "px";
-      
+      //document.getElementById("scrolText").style.top = (height - 50) + "px";
     }, 1500);
      
   }
@@ -582,20 +611,37 @@ export class DisplayimagevideoPage {
   }
 
   timerTickerSetting() {
+   
     let styles = {
-       //'color': '#'+this.tickersetting['FontColour']+'',
-       'position': 'absolute',
-       'height': 'inherit',
-       //'background-color' : '#'+this.tickersetting['BGColour']+'',
-       'margin': '0',
-       'text-align': 'center',
-       'display': 'inline-block',
-       'width': 'max-content',
-       '-moz-transform':'translateX(100%)',
-       '-webkit-transform':'translateX(100%)',
-       'transform':'translateX(100%)',
-       //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
-       'animation': 'example1 10s linear infinite',
+      //'color': '#'+this.tickersetting['FontColour']+'',
+      //'position': 'absolute',
+      //  'height': 'inherit',
+      //  //'background-color' : '#'+this.tickersetting['BGColour']+'',
+      //  'margin': '0',
+      //  'text-align': 'left',
+      //  'display': 'inline-block',
+      //  'width': 'max-content',
+      //  'transform': 'translate3d(0, 0, 0)',
+      //  //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
+       'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear forwards infinite normal',
+
+    };
+    return styles;
+  }
+  timerTickerSetting1() {
+   
+    let styles = {
+      //'color': '#'+this.tickersetting['FontColour']+'',
+      //'position': 'absolute',
+      //  'height': 'inherit',
+      //  //'background-color' : '#'+this.tickersetting['BGColour']+'',
+      //  'margin': '0',
+      //  'text-align': 'left',
+      //  'display': 'inline-block',
+      //  'width': 'max-content',
+      //  'transform': 'translate3d(0, 0, 0)',
+      //  //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
+       'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear '+(this.tickersetting['Delay']/1000)/2+'s forwards infinite normal',
 
     };
     return styles;

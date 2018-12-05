@@ -26,8 +26,22 @@
     </ion-slide>
   </ion-slides>
   <div *ngIf = "videos.length > 0" class="video-player">
-    <video id ='VideoPlayer' class="video-player" (ended) = 'playVideo()'></video>
+    <video id ='VideoPlayer' class="playerVideo" (ended) = 'playVideo()'></video>
   </div>
+  <div id ="scrolText" *ngIf = "isUseTicker" class="example1 " [ngStyle] = "footerStyle()">
+      <div class = "mover" [ngStyle]="timerTickerSetting()">
+          <div id='wraper' class ="imageTextWrapper" *ngFor = "let data of runningTickers">
+                  <img class ="imgRunning" src = "assets/logo/murni.png" >
+                  <div class = "textRunning" [ngStyle] = "textStyle()">{{data.Texts}} </div>
+          </div>
+      </div>
+      <div class = "mover" [ngStyle]="timerTickerSetting1()">
+          <div id='wraper' class ="imageTextWrapper" *ngFor = "let data of runningTickers">
+                  <img class ="imgRunning" src = "assets/logo/murni.png" >
+                  <div class = "textRunning" [ngStyle] = "textStyle()">{{data.Texts}} </div>
+          </div>
+      </div>
+    </div>
 </ion-content>
 
 <!-- <div id ="scrolText" *ngIf = "isUseTicker" class="example1">
@@ -39,13 +53,6 @@
   </div>
 </div> -->
 
-<div id ="scrolText" *ngIf = "isUseTicker" class="example1 " [ngStyle] = "footerStyle()">
-  <div class = "mover" [ngStyle]="timerTickerSetting()" >
-      <div class ="imageTextWrapper" *ngFor = "let data of runningTickers">
-              <img class ="imgRunning" src = "assets/logo/murni.png" >
-              <div class = "textRunning" [ngClass] = "textStyle()">{{data.Texts}} </div>
-      </div>
-  </div>
-</div>
+
 
   
