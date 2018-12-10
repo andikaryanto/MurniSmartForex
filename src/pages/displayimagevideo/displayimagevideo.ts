@@ -686,7 +686,7 @@ export class DisplayimagevideoPage {
     if(this.isLandscape)
     Multimedia_Percent_Height = this.sdContainSetting['Multimedia_Percent_Height_L'] + "%";
     else 
-    Multimedia_Percent_Height = this.sdContainSetting['Multimedia_Percent_Height_L'] + "%";
+    Multimedia_Percent_Height = this.sdContainSetting['Multimedia_Percent_Height_P'] + "%";
 
 
     let styles =  {

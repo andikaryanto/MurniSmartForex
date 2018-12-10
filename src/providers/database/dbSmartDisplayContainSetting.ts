@@ -398,7 +398,6 @@ export class DbSmartDisplayContainSettingProvider{
                                                     Running_Text_Percent_Left_P,
                                                     Running_Text_Percent_Top_P,
                                                     
-                                                    
                                                     RSSFeed_IsShow,
                                                     RSSFeed_Percent_Height_L, 
                                                     RSSFeed_Percent_Width_L,
@@ -602,7 +601,7 @@ export class DbSmartDisplayContainSettingProvider{
         Running_Text_Percent_Height_P: number,
         Running_Text_Percent_Width_P : number,
         Running_Text_Percent_Left_P : number,
-        Running_Text_Percent_Top_P  : number,
+        Running_Text_Percent_Top_P : number,
 
         RSSFeed_IsShow : string,
         RSSFeed_Percent_Height_L: number, 
@@ -653,7 +652,7 @@ export class DbSmartDisplayContainSettingProvider{
             "Board_Percent_Height_P" : Board_Percent_Height_P,
             "Board_Percent_Width_P" : Board_Percent_Width_P,
             "Board_Percent_Left_P" : Board_Percent_Left_P,
-            "Board_Percent_Top_P " : Board_Percent_Top_P ,
+            "Board_Percent_Top_P" : Board_Percent_Top_P ,
             "Multimedia_IsShow" : Multimedia_IsShow,
             "Multimedia_Percent_Height_L" : Multimedia_Percent_Height_L, 
             "Multimedia_Percent_Width_L" : Multimedia_Percent_Width_L,
@@ -662,7 +661,7 @@ export class DbSmartDisplayContainSettingProvider{
             "Multimedia_Percent_Height_P" : Multimedia_Percent_Height_P,
             "Multimedia_Percent_Width_P" : Multimedia_Percent_Width_P,
             "Multimedia_Percent_Left_P" : Multimedia_Percent_Left_P,
-            "Multimedia_Percent_Top_P " : Multimedia_Percent_Top_P ,
+            "Multimedia_Percent_Top_P" : Multimedia_Percent_Top_P ,
             "Running_Text_IsShow" : Running_Text_IsShow,
             "Running_Text_Percent_Height_L" : Running_Text_Percent_Height_L, 
             "Running_Text_Percent_Width_L" : Running_Text_Percent_Width_L,
@@ -671,7 +670,7 @@ export class DbSmartDisplayContainSettingProvider{
             "Running_Text_Percent_Height_P" : Running_Text_Percent_Height_P,
             "Running_Text_Percent_Width_P" : Running_Text_Percent_Width_P,
             "Running_Text_Percent_Left_P" : Running_Text_Percent_Left_P,
-            "Running_Text_Percent_Top_P " : Running_Text_Percent_Top_P ,
+            "Running_Text_Percent_Top_P" : Running_Text_Percent_Top_P ,
             "RSSFeed_IsShow" : RSSFeed_IsShow,
             "RSSFeed_Percent_Height_L" : RSSFeed_Percent_Height_L, 
             "RSSFeed_Percent_Width_L" : RSSFeed_Percent_Width_L,
@@ -680,7 +679,7 @@ export class DbSmartDisplayContainSettingProvider{
             "RSSFeed_Percent_Height_P" : RSSFeed_Percent_Height_P,
             "RSSFeed_Percent_Width_P" : RSSFeed_Percent_Width_P,
             "RSSFeed_Percent_Left_P" : RSSFeed_Percent_Left_P,
-            "RSSFeed_Percent_Top_" : RSSFeed_Percent_Top_P
+            "RSSFeed_Percent_Top_P" : RSSFeed_Percent_Top_P
         }
 
         return object;
