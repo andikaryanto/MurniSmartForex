@@ -270,29 +270,33 @@ export class ApiSmartDisplayModel
                                 if(sourceData['fileName'] != data['FileName']){
                                     this.localStorage.downloadFromFTP(localPath,  originPath)
                                     .then(async isDownloaded => {
-                                        this.multimediModel.updateData(object)
-                                            .then(() => {
-                                                //console.log(object);
-                                                this.localStorage.removeData(this.localStorage.getApplicationDataImageDirectory(), data['FileName'])
-                                                .then(isDeleted => {
-                                                    //this.multimediModel.deleteMultimedia(data['Id']);
-                                                    resolve(object);    
+                                        if(isDownloaded){
+                                            this.multimediModel.updateData(object)
+                                                .then(() => {
+                                                    //console.log(object);
+                                                    this.localStorage.removeData(this.localStorage.getApplicationDataImageDirectory(), data['FileName'])
+                                                    .then(isDeleted => {
+                                                        if(isDeleted){
+                                                            //this.multimediModel.deleteMultimedia(data['Id']);
+                                                            resolve(object);  
+                                                        } 
+                                                    })
+                                                    .catch(err => {
+                                                        reject(err);
+                                                    });
+
+                                                    this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                                    .then(res => {
+                                                    })
+                                                    .catch(err => {
+                                                    });
+                                                    resolve(object);                  
                                                 })
                                                 .catch(err => {
+                                                    //console.error(err);
                                                     reject(err);
                                                 });
-
-                                                this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
-                                                .then(res => {
-                                                })
-                                                .catch(err => {
-                                                });
-                                                resolve(object);                  
-                                            })
-                                            .catch(err => {
-                                                //console.error(err);
-                                                reject(err);
-                                            });
+                                            }
                                     })
                                     .catch(err => {
                                         reject(err);
@@ -303,11 +307,14 @@ export class ApiSmartDisplayModel
                                         if(!isExist){
                                             this.localStorage.downloadFromFTP(localPath,  originPath)
                                             .then(async isDownloaded => { 
-                                                this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
-                                                .then(res => {
-                                                })
-                                                .catch(err => {
-                                                });
+                                                
+                                                if(isDownloaded){
+                                                    this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                                    .then(res => {
+                                                    })
+                                                    .catch(err => {
+                                                    });
+                                                }
                                                 resolve(object);  
                                             })
                                             .catch(err => {
@@ -359,19 +366,21 @@ export class ApiSmartDisplayModel
                             console.log(localDir + sourceData['fileName']);
                             this.localStorage.downloadFromFTP(localPath,  originPath)
                             .then( isDownloaded => {
-                                this.multimediModel.saveData(object)
-                                .then(() => {
-                                    this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
-                                    .then(res => {
+                                if(isDownloaded){
+                                    this.multimediModel.saveData(object)
+                                    .then(() => {
+                                        this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                        .then(res => {
+                                        })
+                                        .catch(err => {
+                                        });
+                                        resolve(object);                            
                                     })
                                     .catch(err => {
+                                        //console.error(err);
+                                        reject(err);
                                     });
-                                    resolve(object);                            
-                                })
-                                .catch(err => {
-                                    //console.error(err);
-                                    reject(err);
-                                });
+                                }
                             })
                             .catch(err => {
                                 reject(err);

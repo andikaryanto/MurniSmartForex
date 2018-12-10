@@ -19,13 +19,14 @@
               direction = "vertical"
               (ionSlideDidChange) = "slideChanged()"
               (ionSlideReachEnd) = "slideReachEnd()"
-              (ionSlideAutoplayStop) = "slideAutoPlayStops()">
+              (ionSlideAutoplayStop) = "slideAutoPlayStops()"
+              [ngStyle] = "multimediaStyle()">
     <ion-slide  class="slide-background swiper-no-swiping" 
               *ngFor="let background of backgrounds; let i = index" 
               [ngStyle]="{'background-image': 'url(' +background.LocalPath+')' }">
     </ion-slide>
   </ion-slides>
-  <div *ngIf = "videos.length > 0" class="video-player">
+  <div *ngIf = "videos.length > 0" class="video-player" [ngStyle] = "multimediaStyle()">
     <video id ='VideoPlayer' class="playerVideo" (ended) = 'playVideo()'></video>
   </div>
   <div id ="scrolText" *ngIf = "isUseTicker" class="example1 " [ngStyle] = "footerStyle()">

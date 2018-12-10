@@ -20,6 +20,7 @@ import { SettingPage } from '../setting/setting';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { SmartDisplayTickerSettingsModel } from '../../models/gen-smartdisplaytickersetting';
 import { TickerModel } from '../../models/gen-ticker';
+import { SmartDisplayContainSettingModel } from '../../models/gen-smartdisplaycontainsetting';
 
 /**
  * Generated class for the DisplayimagevideoPage page.
@@ -48,6 +49,7 @@ export class DisplayimagevideoPage {
   private isUseTicker = false;
   private demoSetting : any;
   private sdPlayerConfig : any;
+  private sdContainSetting : any;
   private infoCustomer : any;
   private isButtonHide : boolean = true;
   private ticker : any;
@@ -63,6 +65,10 @@ export class DisplayimagevideoPage {
   private tickersetting = {};
   private tickersLength : number;
   private width:number;
+  private isLandscape : boolean = false;
+
+  private multimediaInterval : any;
+  private tickerInterval : any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -77,6 +83,7 @@ export class DisplayimagevideoPage {
               private smartDisplayCustomerInfoModel : SmartDisplayCustomerInfoModel,
               private smartDisplayTickerSettingModel : SmartDisplayTickerSettingsModel,
               private smartDisplayPlayerConfigurationModel : SmartDisplayPlayerConfigurationModel,
+              private smartDisplayContainSettingModel : SmartDisplayContainSettingModel,
               private helper : Helper,
               private multimediaModel : MultimediaModel,
               private smartDisplayTickerSettingsModel : SmartDisplayTickerSettingsModel,
@@ -88,8 +95,11 @@ export class DisplayimagevideoPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DemoimagevideoPage');
     this.initApi();
+  }
 
-   
+  ionViewDidLeave(){
+    clearInterval(this.multimediaInterval);
+    clearInterval(this.tickerInterval);
   }
   //api file region
   async initApi(){
@@ -98,34 +108,37 @@ export class DisplayimagevideoPage {
     this.demoSetting = await this.demoSettings.getDemoSetting();
     this.infoCustomer = await this.smartDisplayCustomerInfoModel.getSmartDisplayCustomerInfo();
     this.sdPlayerConfig = await this.smartDisplayPlayerConfigurationModel.getSmartDisplayPlayerConfiguration();
+    this.sdContainSetting = await this.smartDisplayContainSettingModel.getSmartDisplayContainSetting();
 
-    if(this.sdPlayerConfig['LayoutOrientation'] == Enums.ScreenOrientationEnum.Landscape)
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    else if(this.sdPlayerConfig['LayoutOrientation'] == Enums.ScreenOrientationEnum.Potrait)
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    if(this.sdPlayerConfig['LayoutOrientation'] == Enums.ScreenOrientationEnum.Landscape){
+      await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
+      this.isLandscape = true;
+    }
+    else if(this.sdPlayerConfig['LayoutOrientation'] == Enums.ScreenOrientationEnum.Potrait){
+      await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);   
+    }
 
     this.fullScreen();
     await this.getDataMultimediaApi();
-    // if(this.sdPlayerConfig['LayoutContain'] == Enums.LayoutContain.FullMultimediaandticker){
+    if(this.sdContainSetting['Running_Text_IsShow'] == "T"){
       this.isUseTicker = true;
       await this.getTickerApi();
       await this.getTickerSetting();
       //this.popPushTicker();
-      this.scrollingTextElement();
-    // }
+      //this.scrollingTextElement();
+    }
   }
 
   async getTickerSetting()
     {
-         this.tickersetting = await this.smartDisplayTickerSettingsModel.getSmartDisplayTickerSettings();
-        
+        this.tickersetting = await this.smartDisplayTickerSettingsModel.getSmartDisplayTickerSettings();
     }
 
   async getTickerApi(){
     this.apiTicker = await this.tickerModel.getData();
     this.setTicker(this.apiTicker);
     console.log("ticker first", this.apiTicker)
-    setInterval(async () => { 
+    this.tickerInterval = setInterval(async () => { 
       var isUpdated = await this.apiSmartDisplayModel.doGetUpdatedTickerByPlayerID(this.infoCustomer['PlayerID']);
       console.log("isUpdated", isUpdated);
       // if (isUpdated)
@@ -190,7 +203,7 @@ export class DisplayimagevideoPage {
   }
   
   async getDataMultimediaApi(){
-    setInterval( async () => { 
+    this.multimediaInterval = setInterval( async () => { 
       var data = await this.apiSmartDisplayModel.doGetUpdatedMultimediaByPlayerID(this.infoCustomer['PlayerID']);
       if(data['result'] == "SUCCESS"){
         //for(let i = 0 ; i < data['listMultimedia'].length; i++){
@@ -648,16 +661,44 @@ export class DisplayimagevideoPage {
   }
 
   footerStyle(){  
+    var Running_Text_Percent_Top = "";
+    var Running_Text_Percent_Height = "";
+    if(this.isLandscape){
+      Running_Text_Percent_Top = this.sdContainSetting['Running_Text_Percent_Top_L'] + "%";
+      Running_Text_Percent_Height = this.sdContainSetting['Running_Text_Percent_Height_L'] + "%";
+    }
+    else {
+      Running_Text_Percent_Top = this.sdContainSetting['Running_Text_Percent_Top_P'] + "%";
+      Running_Text_Percent_Height = this.sdContainSetting['Running_Text_Percent_Height_P'] + "%";
+    }
+
     let styles =  {
+    'top' : Running_Text_Percent_Top,
+    'height' : Running_Text_Percent_Height,
     'background-color' : '#'+this.tickersetting['BGColour']+'',
     }
     return styles;
   }
 
+  multimediaStyle(){
+    var Multimedia_Percent_Height = "";
+    
+    if(this.isLandscape)
+    Multimedia_Percent_Height = this.sdContainSetting['Multimedia_Percent_Height_L'] + "%";
+    else 
+    Multimedia_Percent_Height = this.sdContainSetting['Multimedia_Percent_Height_L'] + "%";
+
+
+    let styles =  {
+      'height' : Multimedia_Percent_Height,
+      }
+      return styles;
+  }
+
   textStyle(){
     let styles =  {
       'color': '#'+this.tickersetting['FontColour']+'',
-      'font-family': this.tickersetting['FontName'] + ', sen-serif',
+      'font-family': this.tickersetting['FontName'] + ', san-serif',
     }
     return styles;
   }
