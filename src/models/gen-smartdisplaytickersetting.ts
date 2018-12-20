@@ -25,9 +25,16 @@ export class SmartDisplayTickerSettingsModel{
                                                                 TickerSettings['Separator_SymbolFilePath'],
                                                                 TickerSettings['Separator_SymbolColour'],
                                                                 TickerSettings['Delay'],
+                                                                0,
                                                                 TickerSettings['Step'],
                                                                 TickerSettings['DelayPotrait'],
+                                                                0,
                                                                 TickerSettings['StepPotrait'])
+    }
+
+    async updateSmartDisplayTickerSettingsColumn(column, value){
+        var isUpdated = await this.dbSmartDisplayTickerSettings.updateSmartDisplayTickerSettingsColumn(column, value);
+        return isUpdated;
     }
 
     async getSmartDisplayTickerSettings(){
@@ -48,8 +55,10 @@ export class SmartDisplayTickerSettingsModel{
         Separator_SymbolFilePath: string, 
         Separator_SymbolColour: string,
         Delay: number, 
+        UsableDelay: number, 
         Step: number,  
         DelayPotrait : number,
+        UsableDelayPotrait : number,
         StepPotrait : number
     )
     {
@@ -67,8 +76,10 @@ export class SmartDisplayTickerSettingsModel{
             Separator_SymbolFilePath,
             Separator_SymbolColour,
             Delay,
+            UsableDelay,
             Step,
             DelayPotrait,
+            UsableDelayPotrait,
             StepPotrait
         )
     }

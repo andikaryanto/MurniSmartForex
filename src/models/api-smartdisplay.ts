@@ -15,7 +15,6 @@ import { CustomToast } from '../helper/gen-toast';
 import { Resource } from '../helper/gen-resources';
 import { errorHandler } from '@angular/platform-browser/src/browser';
 import { SmartDisplayTickerSettingsModel } from './gen-smartdisplaytickersetting';
-import { DbSmartDisplayTickerSettingsProvider } from '../providers/database/dbSmartDisplayTickerSettings';
 import { TickerModel } from './gen-ticker';
 import { resolve } from 'dns';
 
@@ -34,7 +33,6 @@ export class ApiSmartDisplayModel
                 private smartDisplayContainSettingModel : SmartDisplayContainSettingModel,
                 private smartDisplayParameterSettingModel : SmartDisplayParameterSettingModel,
                 private smartDisplayTickerSettingModel : SmartDisplayTickerSettingsModel,
-                private smartDisplayTickerSettingProvider : DbSmartDisplayTickerSettingsProvider,
                 private multimediModel : MultimediaModel,
                 private serverModel : ServerModel,
                 private localStorage : LocalStorage,
@@ -194,7 +192,9 @@ export class ApiSmartDisplayModel
                         sourcedata[9]['Value'][0],
                         sourcedata[10]['Value'][0],
                         sourcedata[11]['Value'][0],
+                        sourcedata[11]['Value'][0],
                         sourcedata[12]['Value'][0],
+                        sourcedata[13]['Value'][0],
                         sourcedata[13]['Value'][0],
                         sourcedata[14]['Value'][0],
                     )  
@@ -413,6 +413,16 @@ export class ApiSmartDisplayModel
                             this.tickerModel.updateData(newData)
                             .then(isUpdated => {
                                 if(isUpdated){
+                                    // if(newData['IsDelete'] == "T"){
+                                    //     this.smartDisplayTickerSettingModel.getSmartDisplayTickerSettings()
+                                    //     .then(tickerSetting => {
+                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelay", tickerSetting["UsableDelay"] - tickerSetting["Delay"]);
+                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelayPotrait", tickerSetting["UsableDelayPotrait"] - tickerSetting["DelayPotrait"]);
+                                    //     })
+                                    //     .catch(err => {
+                                    //         console.log(err);
+                                    //     })
+                                    // }
                                     this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.TIKCER_SD, playerid, objectData['ID'])
                                     .then(res => {
                                     })
@@ -426,6 +436,16 @@ export class ApiSmartDisplayModel
                             this.tickerModel.saveData(newData)
                             .then(isInserted => {
                                 if(isInserted){
+                                    // if(newData['IsDelete'] == "F"){
+                                    //     this.smartDisplayTickerSettingModel.getSmartDisplayTickerSettings()
+                                    //     .then(tickerSetting => {
+                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelay", tickerSetting["Delay"] + tickerSetting["UsableDelay"]);
+                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelayPotrait", tickerSetting["DelayPotrait"] + tickerSetting["UsableDelayPotrait"]);
+                                    //     })
+                                    //     .catch(err => {
+                                    //         console.log(err);
+                                    //     })
+                                    // }
                                     this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.TIKCER_SD, playerid, objectData['ID'])
                                     .then(res => {
                                     })

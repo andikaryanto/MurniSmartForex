@@ -67,8 +67,10 @@ export class DbSmartDisplayTickerSettingsProvider{
         this.addColumnsSmartDisplayTickerSettings.push({Column : "Separator_SymbolFilePath", DataType : "varchar(20)"});
         this.addColumnsSmartDisplayTickerSettings.push({Column : "Separator_SymbolColour", DataType : "varchar(20)"});
         this.addColumnsSmartDisplayTickerSettings.push({Column : "Delay", DataType : "int"});
+        this.addColumnsSmartDisplayTickerSettings.push({Column : "UsableDelay", DataType : "int"});
         this.addColumnsSmartDisplayTickerSettings.push({Column : "Step", DataType : "int"});
         this.addColumnsSmartDisplayTickerSettings.push({Column : "DelayPotrait", DataType : "int"});
+        this.addColumnsSmartDisplayTickerSettings.push({Column : "UsableDelayPotrait", DataType : "int"});
         this.addColumnsSmartDisplayTickerSettings.push({Column : "StepPotrait", DataType : "int"});
         //console.log(this.addColumnsSmartDisplayTickerSettings)
     }
@@ -101,8 +103,10 @@ export class DbSmartDisplayTickerSettingsProvider{
                                                         data.rows.item(i).Separator_SymbolFilePath,
                                                         data.rows.item(i).Separator_SymbolColour,
                                                         data.rows.item(i).Delay,
+                                                        data.rows.item(i).UsableDelay,
                                                         data.rows.item(i).Step,
                                                         data.rows.item(i).DelayPotrait,
+                                                        data.rows.item(i).UsableDelayPotrait,
                                                         data.rows.item(i).StepPotrait);
                         }
                     }
@@ -165,8 +169,10 @@ export class DbSmartDisplayTickerSettingsProvider{
         Separator_SymbolFilePath: string, 
         Separator_SymbolColour: string,
         Delay: number, 
+        UsableDelay: number, 
         Step: number,  
         DelayPotrait : number,
+        UsableDelayPotrait : number,
         StepPotrait : number) 
     {
         this.storage.create({
@@ -187,10 +193,12 @@ export class DbSmartDisplayTickerSettingsProvider{
                                                 Separator_SymbolFilePath,
                                                 Separator_SymbolColour,
                                                 Delay,
+                                                UsableDelay,
                                                 Step,
                                                 DelayPotrait,
+                                                UsableDelayPotrait,
                                                 StepPotrait) 
-                            VALUES (?, ?, ? , ? ,?,?, ?, ? , ? ,?,?, ?, ? , ? ,?,?)`, 
+                            VALUES (?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
                                                [Id,
                                                 FontName,
                                                 FontSize,
@@ -204,8 +212,10 @@ export class DbSmartDisplayTickerSettingsProvider{
                                                 Separator_SymbolFilePath,
                                                 Separator_SymbolColour,
                                                 Delay,
+                                                UsableDelay,
                                                 Step,
                                                 DelayPotrait,
+                                                UsableDelayPotrait,
                                                 StepPotrait])
             .then((data) => {
                 console.log("player conf SQL Insert Execute");
@@ -232,8 +242,10 @@ export class DbSmartDisplayTickerSettingsProvider{
         Separator_SymbolFilePath: string, 
         Separator_SymbolColour: string,
         Delay: number, 
+        UsableDelay: number, 
         Step: number,  
         DelayPotrait : number,
+        UsableDelayPotrait : number,
         StepPotrait : number){
 
         return new Promise((resolve, reject) => {
@@ -259,8 +271,10 @@ export class DbSmartDisplayTickerSettingsProvider{
                                     Separator_SymbolFilePath = ?,
                                     Separator_SymbolColour = ?,
                                     Delay = ?,
+                                    UsableDelay = ?
                                     Step = ?,
                                     DelayPotrait = ?,
+                                    UsableDelayPotrait =? 
                                     StepPotrait = ?
                             WHERE Id = ?`;
     
@@ -276,8 +290,10 @@ export class DbSmartDisplayTickerSettingsProvider{
                                     Separator_SymbolFilePath,
                                     Separator_SymbolColour,
                                     Delay,
+                                    UsableDelay,
                                     Step,
                                     DelayPotrait,
+                                    UsableDelayPotrait,
                                     StepPotrait,
                                     Id])
                 .then((data) => {
@@ -331,8 +347,10 @@ export class DbSmartDisplayTickerSettingsProvider{
         Separator_SymbolFilePath: string, 
         Separator_SymbolColour: string,
         Delay: number, 
+        UsableDelay: number, 
         Step: number,  
         DelayPotrait : number,
+        UsableDelayPotrait : number,
         StepPotrait : number
     ) : {}
     {
@@ -351,12 +369,36 @@ export class DbSmartDisplayTickerSettingsProvider{
             "Separator_SymbolFilePath" : Separator_SymbolFilePath,
             "Separator_SymbolColour" : Separator_SymbolColour,
             "Delay" : Delay,
+            "UsableDelay" : UsableDelay,
             "Step" : Step,
             "DelayPotrait" : DelayPotrait,
+            "UsableDelayPotrait" : UsableDelayPotrait,
             "StepPotrait" : StepPotrait
         }
 
         return object;
+    }
+
+    updateSmartDisplayTickerSettingsColumn(Column : string, Value : any) : Promise<boolean>
+    {
+        return new Promise((resolve, reject) => {
+            this.storage.create({
+                name: 'data.db',
+                location: 'default'
+            })
+            .then((db: SQLiteObject) => {
+                var sql = "";
+                    sql = "UPDATE SmartDisplayTickerSettings set "+Column+" = ? WHERE Id = 1";                   
+                db.executeSql(sql, [Value])
+                .then((data) => {
+                    console.log("SQL SmartDisplayTickerSettings Updated");
+                    resolve(true);
+                }, (error) => {
+                    resolve(false);
+                });
+            });
+        });
+        
     }
 
     isDataExistSmartDisplayTickerSettings() : Promise<boolean>

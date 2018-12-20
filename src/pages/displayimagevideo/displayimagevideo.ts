@@ -122,8 +122,8 @@ export class DisplayimagevideoPage {
     await this.getDataMultimediaApi();
     if(this.sdContainSetting['Running_Text_IsShow'] == "T"){
       this.isUseTicker = true;
-      await this.getTickerApi();
       await this.getTickerSetting();
+      await this.getTickerApi();
       //this.popPushTicker();
       //this.scrollingTextElement();
     }
@@ -136,40 +136,24 @@ export class DisplayimagevideoPage {
 
   async getTickerApi(){
     this.apiTicker = await this.tickerModel.getData();
+    this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelay", this.tickersetting["Delay"] * this.apiTicker.length);
+    this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelayPotrait", this.tickersetting["DelayPotrait"] * this.apiTicker.length);
+    this.getTickerSetting();
     this.setTicker(this.apiTicker);
-    console.log("ticker first", this.apiTicker)
+
     this.tickerInterval = setInterval(async () => { 
       var isUpdated = await this.apiSmartDisplayModel.doGetUpdatedTickerByPlayerID(this.infoCustomer['PlayerID']);
       console.log("isUpdated", isUpdated);
-      // if (isUpdated)
-      // {
-      //   this.apiTicker = await this.tickerModel.getData();
-      //   console.log("ticker if", this.apiTicker)
-      //   this.setTicker(this.apiTicker);
-      // }
-      // else
-      // {
-      //   if(this.runningTickers.length == 0){
-      //     this.apiTicker = await this.tickerModel.getData();
-      //     this.setTicker(this.apiTicker);
-      //   }
-      // }    
-      
+
       this.apiTicker = await this.tickerModel.getData();
+      
+      if(isUpdated){
+        this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelay", this.tickersetting["Delay"] * this.apiTicker.length);
+        this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelayPotrait", this.tickersetting["DelayPotrait"] * this.apiTicker.length);
+        this.getTickerSetting();
+      }
+
       this.setTicker(this.apiTicker);
-      // if(this.apiTicker != undefined){
-      //   if(ticker['SResultCode'] == "SUCCESS"){
-      //     if(this.apiTicker['SmartDisplayPlayer'][0]['LastUpdate'][0] != ticker['SmartDisplayPlayer'][0]['LastUpdate'][0]){
-      //       this.apiTicker = ticker;
-      //       this.setTicker(this.apiTicker);
-      //     }
-      //   }
-      // } else {
-      //   if(ticker['SResultCode'] == "SUCCESS"){
-      //     this.apiTicker = ticker;
-      //     this.setTicker(this.apiTicker);
-      //   }
-      // }
 
     }, 5000);//this.tickersetting['Delay']);
   }
@@ -222,7 +206,7 @@ export class DisplayimagevideoPage {
           });
         //}
       }
-    }, 1500);
+    }, 5000);
     await this.getMultimedia();
     //console.log("aa",this.backgrounds);
   }
@@ -624,7 +608,12 @@ export class DisplayimagevideoPage {
   }
 
   timerTickerSetting() {
-   
+    var delay = 0;
+    if(this.isLandscape)
+      delay = this.tickersetting['UsableDelay'];
+    else 
+      delay = this.tickersetting['UsableDelayPotrait'];
+
     let styles = {
       //'color': '#'+this.tickersetting['FontColour']+'',
       //'position': 'absolute',
@@ -636,13 +625,18 @@ export class DisplayimagevideoPage {
       //  'width': 'max-content',
       //  'transform': 'translate3d(0, 0, 0)',
       //  //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
-       'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear forwards infinite normal',
+       'animation': 'example1 '+delay/1000+'s linear forwards infinite normal',
 
     };
     return styles;
   }
   timerTickerSetting1() {
-   
+    var delay = 0;
+    if(this.isLandscape)
+      delay = this.tickersetting['UsableDelay'];
+    else 
+      delay = this.tickersetting['UsableDelayPotrait'];
+
     let styles = {
       //'color': '#'+this.tickersetting['FontColour']+'',
       //'position': 'absolute',
@@ -654,7 +648,7 @@ export class DisplayimagevideoPage {
       //  'width': 'max-content',
       //  'transform': 'translate3d(0, 0, 0)',
       //  //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
-       'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear '+(this.tickersetting['Delay']/1000)/2+'s forwards infinite normal',
+       'animation': 'example1 '+delay/1000+'s linear '+(delay/1000)/2+'s forwards infinite normal',
 
     };
     return styles;
