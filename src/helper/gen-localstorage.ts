@@ -1097,39 +1097,46 @@ export class LocalStorage implements ILocalStorage
             .then(data => {
                 this.ftp.connect(data['IpAddress'], data['Username'], data['Password'])
                 .then(() => {
-                    this.ftp.download(localPath, originPath)
-                    .subscribe({
-                        next: value => {
-                            console.log(value);
-                            if(value == 1){
-                                resolve(true);
-                                //console.log(value);
-                                this.ftp.disconnect()
-                                .then(val => {
-                                    //console.log("disconnected");
-                                })
-                                .catch(err => {
-                                    //console.log("err disco");
+                    // this.ftp.ls(this.getPath(originPath,1))
+                    // .then(files => {
+                    //     files.array.forEach(element => {
+                    //         if(element.name == this.getName(originPath)){
+                                this.ftp.download(localPath, originPath)
+                                .subscribe({
+                                    next: value => {
+                                        console.log(value);
+                                        if(value == 1){
+                                            resolve(true);
+                                            this.ftp.disconnect()
+                                            .then(val => {
+
+                                            })
+                                            .catch(err => {
+
+                                            });
+                                        }
+                                    },
+                                    error: err => { console.log(err); 
+                                        resolve(false);
+                                    },
+                                    complete: () => { resolve(false); console.log('complete'); }
                                 });
-                            }
-                        },
-                        error: err => { console.error(err); 
-                            resolve(false);
-                        },
-                        complete: () => { resolve(false); console.log('complete'); }
-                    });
+                    //         } else {
+                    //             resolve(false);
+                    //         }
+                    //     });
+                    // })
+                    
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.log(err);
                     resolve(false);
                     this.ftp.disconnect()
                     .then(val => {
                         resolve(false);
-                        //console.log("disconnected");
                     })
                     .catch(err => {
                         resolve(false);
-                        //console.log("err disco");
                     });
                 });
             });

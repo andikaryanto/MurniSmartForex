@@ -69,6 +69,7 @@ export class Helper
 
     }
 
+
     getDateFromString(date : string, hour = 0, minute = 0, second = 0){
         var dateArr = date.split("-");
         return new Date(Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2]), hour, minute, second);
@@ -83,7 +84,7 @@ export class Helper
         return Number(timeArr[0].toString()+timeArr[1].toString()+timeArr[2].toString());
     }
 
-    getDateString(Dates){
+    getDateString(Dates : Date){
         //var Dates = this.getLocalCurrentDate();
         var Year = Dates.getFullYear().toString();
         var Month = (Dates.getMonth() + 1).toString();
@@ -96,7 +97,7 @@ export class Helper
         return Year+"_"+Month+"_"+Day+"_"+Hour+"_"+Minute+"_"+Second;
     }
 
-    async getFromatedDateString(Dates){
+    async getFromatedDateString(Dates : Date){
         //var Dates = this.getLocalCurrentDate();
         var Day = await this.config.getDay(Dates.getDay());
         var DateInt = Dates.getDate().toString();

@@ -269,7 +269,7 @@ export class ApiSmartDisplayModel
                             if(sourceData['isDeleted'] == "F"){
                                 if(sourceData['fileName'] != data['FileName']){
                                     this.localStorage.downloadFromFTP(localPath,  originPath)
-                                    .then(async isDownloaded => {
+                                    .then(isDownloaded => {
                                         if(isDownloaded){
                                             this.multimediModel.updateData(object)
                                                 .then(() => {
@@ -306,9 +306,14 @@ export class ApiSmartDisplayModel
                                     .then(isExist => {
                                         if(!isExist){
                                             this.localStorage.downloadFromFTP(localPath,  originPath)
-                                            .then(async isDownloaded => { 
-                                                
+                                            .then(isDownloaded => { 
                                                 if(isDownloaded){
+                                                    this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                                    .then(res => {
+                                                    })
+                                                    .catch(err => {
+                                                    });
+                                                } else {
                                                     this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
                                                     .then(res => {
                                                     })
@@ -380,6 +385,12 @@ export class ApiSmartDisplayModel
                                         //console.error(err);
                                         reject(err);
                                     });
+                                } else {
+                                    this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.MULTIMEDIA_SD, playerId, object['MultimediaId'])
+                                    .then(res => {
+                                    })
+                                    .catch(err => {
+                                    });
                                 }
                             })
                             .catch(err => {
@@ -413,16 +424,6 @@ export class ApiSmartDisplayModel
                             this.tickerModel.updateData(newData)
                             .then(isUpdated => {
                                 if(isUpdated){
-                                    // if(newData['IsDelete'] == "T"){
-                                    //     this.smartDisplayTickerSettingModel.getSmartDisplayTickerSettings()
-                                    //     .then(tickerSetting => {
-                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelay", tickerSetting["UsableDelay"] - tickerSetting["Delay"]);
-                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelayPotrait", tickerSetting["UsableDelayPotrait"] - tickerSetting["DelayPotrait"]);
-                                    //     })
-                                    //     .catch(err => {
-                                    //         console.log(err);
-                                    //     })
-                                    // }
                                     this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.TIKCER_SD, playerid, objectData['ID'])
                                     .then(res => {
                                     })
@@ -436,16 +437,6 @@ export class ApiSmartDisplayModel
                             this.tickerModel.saveData(newData)
                             .then(isInserted => {
                                 if(isInserted){
-                                    // if(newData['IsDelete'] == "F"){
-                                    //     this.smartDisplayTickerSettingModel.getSmartDisplayTickerSettings()
-                                    //     .then(tickerSetting => {
-                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelay", tickerSetting["Delay"] + tickerSetting["UsableDelay"]);
-                                    //         this.smartDisplayTickerSettingModel.updateSmartDisplayTickerSettingsColumn("UsableDelayPotrait", tickerSetting["DelayPotrait"] + tickerSetting["UsableDelayPotrait"]);
-                                    //     })
-                                    //     .catch(err => {
-                                    //         console.log(err);
-                                    //     })
-                                    // }
                                     this.apiSmartDisplayProvider.doGetLastUpdateContentByPlayerID(Enums.ContentType.TIKCER_SD, playerid, objectData['ID'])
                                     .then(res => {
                                     })

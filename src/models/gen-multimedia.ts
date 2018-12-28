@@ -75,13 +75,29 @@ export class MultimediaModel
         return newdata;
     }
 
-    isValidToShow(data) : boolean{
+    isValidToShow(data) : boolean {
         var isValid = false
+
+        var dayShow = (data['Days'].toString()).split(",");
+        var validDay = false;
+
+        var localDay = this.helper.getLocalCurrentDate().getDay() + 1; // local monday = 1 , server day monday = 2
+        if(localDay > 7) 
+            localDay = 1;
+
+        for(var i = 0 ; i< dayShow.length; i++){
+            if(dayShow[i] == localDay){ 
+                validDay = true;
+            }
+        }
+
         if(this.helper.getLocalCurrentDate() <= this.helper.getDateFromStrings(data['DeactivationDate'].toString(), 23, 59, 59)
         && this.helper.getLocalCurrentDate() >= this.helper.getDateFromStrings(data['ActivationDate'].toString())){
-            if(this.helper.getCurrentIntTime(this.helper.getLocalCurrentDate()) <= this.helper.getIntTime(data['EndTime']) 
-            && this.helper.getCurrentIntTime(this.helper.getLocalCurrentDate()) >= this.helper.getIntTime(data['StartTime'])){
-                isValid = true;
+            if(validDay){
+                if(this.helper.getCurrentIntTime(this.helper.getLocalCurrentDate()) <= this.helper.getIntTime(data['EndTime']) 
+                && this.helper.getCurrentIntTime(this.helper.getLocalCurrentDate()) >= this.helper.getIntTime(data['StartTime'])){
+                    isValid = true;
+                }
             }
         }
 
