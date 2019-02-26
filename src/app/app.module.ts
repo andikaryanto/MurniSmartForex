@@ -100,6 +100,10 @@ import { Device } from '@ionic-native/device';
 import { FTP } from '@ionic-native/ftp';
 import { CodePush } from '@ionic-native/code-push';
 import { Insomnia } from '@ionic-native/insomnia';
+import { Autostart } from '@ionic-native/autostart';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { BackgroundMode } from '@ionic-native/background-mode';
+
 
 @NgModule({
   declarations: [
@@ -222,7 +226,10 @@ import { Insomnia } from '@ionic-native/insomnia';
     Device,
     FTP,
     CodePush,
-    Insomnia
+    Insomnia,
+    Autostart,
+    OpenNativeSettings,
+    BackgroundMode
     
   ]
 })

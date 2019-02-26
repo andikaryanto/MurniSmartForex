@@ -39,6 +39,9 @@ import { Insomnia } from '@ionic-native/insomnia';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { SmartDisplayTickerSettingsModel } from '../models/gen-smartdisplaytickersetting';
 import { TickerModel } from '../models/gen-ticker';
+import { Autostart } from '@ionic-native/autostart';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @Component({
   templateUrl: 'app.html'
@@ -91,16 +94,26 @@ isAppUpdated : boolean = false;
               private toast : CustomToast,
               private alertCtrl : AlertController,
               private insomnisa : Insomnia,
-              private tickerModel : TickerModel
+              private tickerModel : TickerModel,
+              private autostart: Autostart,
+              private openNativeSettings: OpenNativeSettings,
+              private backgroundMode: BackgroundMode
               ) {
     this.InitializeComponent();
     this.resources();
   }
 
   InitializeComponent()
-  {
+  { this.autostart.enable();
+    this.backgroundMode.enable();
+    setInterval(() => { 
+      this.backgroundMode.moveToForeground();
+    }, 500);//this.tickersetting['Delay']);
+  
+  
     //this.page.statBar();
     this.platform.ready().then(() => {
+     //this.openNativeSettings.open('application_development');
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       //this.statusBar.styleDefault();
