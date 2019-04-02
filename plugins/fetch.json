@@ -216,5 +216,29 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-autostart": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-autostart"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-open-native-settings": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-open-native-settings@1.5.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-background-mode": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-background-mode"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

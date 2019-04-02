@@ -118,7 +118,7 @@ isAppUpdated : boolean = false;
       // Here you can do any higher level native things you might need.
       //this.statusBar.styleDefault();
       //this.splashScreen.hide();
-      this.checkUpdate();
+      // this.checkUpdate();
       this.doStayAwake();
       this.localStorage.createMultimediaFolder();
       this.htmlResources();
@@ -131,7 +131,7 @@ isAppUpdated : boolean = false;
         
       });
       console.log("ret");
-      this.codePush.getCurrentPackage();
+      // this.codePush.getCurrentPackage();
       //this.page.statBar();
       this.cachingGallery();
       //this.cacheScreenResolution();

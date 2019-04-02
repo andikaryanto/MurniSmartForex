@@ -185,7 +185,7 @@ export class DisplayimagevideoPage {
     }
    
   }
-  
+    
   async getDataMultimediaApi(){
     this.multimediaInterval = setInterval( async () => { 
       var data = await this.apiSmartDisplayModel.doGetUpdatedMultimediaByPlayerID(this.infoCustomer['PlayerID']);
@@ -626,6 +626,8 @@ export class DisplayimagevideoPage {
       //  'transform': 'translate3d(0, 0, 0)',
       //  //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
        'animation': 'example1 '+delay/1000+'s linear forwards infinite normal',
+       '-moz-animation': 'example1 '+delay/1000+'s linear forwards infinite normal',
+       '-webkit-animation': 'example1 '+delay/1000+'s linear forwards infinite normal',
 
     };
     return styles;
@@ -648,8 +650,9 @@ export class DisplayimagevideoPage {
       //  'width': 'max-content',
       //  'transform': 'translate3d(0, 0, 0)',
       //  //'animation': 'example1 '+this.tickersetting['Delay']/1000+'s linear infinite',
-       'animation': 'example1 '+delay/1000+'s linear '+(delay/1000)/2+'s forwards infinite normal',
-
+      'animation': 'example1 '+delay/1000+'s linear '+(delay/1000)/2+'s forwards infinite normal',
+     '-moz-animation': 'example1 '+delay/1000+'s linear '+(delay/1000)/2+'s forwards infinite normal',
+     '-webkit-animation': 'example1 '+delay/1000+'s linear '+(delay/1000)/2+'s forwards infinite normal',
     };
     return styles;
   }

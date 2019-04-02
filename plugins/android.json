@@ -72,6 +72,15 @@
     },
     "cordova-plugin-insomnia": {
       "PACKAGE_NAME": "com.sysdev.murnilocal"
+    },
+    "cordova-plugin-autostart": {
+      "PACKAGE_NAME": "com.sysdev.murnilocal"
+    },
+    "cordova-open-native-settings": {
+      "PACKAGE_NAME": "com.sysdev.murnilocal"
+    },
+    "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "com.sysdev.murnilocal"
     }
   },
   "dependent_plugins": {

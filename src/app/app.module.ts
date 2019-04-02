@@ -125,7 +125,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     SettingimagemodalPage,
     SettingtabularPage,
     SettingvideoPage,
-    SettingvideochoosePage    
+    SettingvideochoosePage
   ],
   imports: [
     BrowserModule,
@@ -154,7 +154,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     SettingimagemodalPage,
     SettingtabularPage,
     SettingvideoPage,
-    SettingvideochoosePage,
+    SettingvideochoosePage
   ],
   providers: [
     StatusBar,
